@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.applet.mapper.GsArticleMapper">
+    
+    <resultMap type="GsArticle" id="GsArticleResult">
+        <result property="id"    column="id"    />
+        <result property="title"    column="title"    />
+        <result property="imagePath"    column="image_path"    />
+        <result property="brief"    column="brief"    />
+        <result property="content"    column="content"    />
+        <result property="comment"    column="comment"    />
+        <result property="clicks"    column="clicks"    />
+        <result property="weight"    column="weight"    />
+        <result property="status"    column="status"    />
+        <result property="publishTime"    column="publish_time"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectGsArticleVo">
+        select id, title, image_path, brief, content, comment, clicks, weight, status, publish_time, remark from gs_article
+    </sql>
+
+    <select id="selectGsArticleList" parameterType="GsArticle" resultMap="GsArticleResult">
+        <include refid="selectGsArticleVo"/>
+        <where>  
+            <if test="title != null  and title != ''"> and title like concat('%', #{title}, '%')</if>
+            <if test="imagePath != null  and imagePath != ''"> and image_path = #{imagePath}</if>
+            <if test="brief != null  and brief != ''"> and brief = #{brief}</if>
+            <if test="content != null  and content != ''"> and content like concat('%', #{content}, '%')</if>
+            <if test="comment != null  and comment != ''"> and comment = #{comment}</if>
+            <if test="clicks != null "> and clicks = #{clicks}</if>
+            <if test="weight != null "> and weight = #{weight}</if>
+            <if test="status != null  and status != ''"> and status = #{status}</if>
+            <if test="publishTime != null "> and publish_time = #{publishTime}</if>
+        </where>
+    </select>
+    
+    <select id="selectGsArticleById" parameterType="Long" resultMap="GsArticleResult">
+        <include refid="selectGsArticleVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertGsArticle" parameterType="GsArticle" useGeneratedKeys="true" keyProperty="id">
+        insert into gs_article
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="title != null and title != ''">title,</if>
+            <if test="imagePath != null">image_path,</if>
+            <if test="brief != null">brief,</if>
+            <if test="content != null">content,</if>
+            <if test="comment != null">comment,</if>
+            <if test="clicks != null">clicks,</if>
+            <if test="weight != null">weight,</if>
+            <if test="status != null">status,</if>
+            <if test="publishTime != null">publish_time,</if>
+            <if test="remark != null">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="title != null and title != ''">#{title},</if>
+            <if test="imagePath != null">#{imagePath},</if>
+            <if test="brief != null">#{brief},</if>
+            <if test="content != null">#{content},</if>
+            <if test="comment != null">#{comment},</if>
+            <if test="clicks != null">#{clicks},</if>
+            <if test="weight != null">#{weight},</if>
+            <if test="status != null">#{status},</if>
+            <if test="publishTime != null">#{publishTime},</if>
+            <if test="remark != null">#{remark},</if>
+         </trim>
+    </insert>
+
+    <update id="updateGsArticle" parameterType="GsArticle">
+        update gs_article
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="title != null and title != ''">title = #{title},</if>
+            <if test="imagePath != null">image_path = #{imagePath},</if>
+            <if test="brief != null">brief = #{brief},</if>
+            <if test="content != null">content = #{content},</if>
+            <if test="comment != null">comment = #{comment},</if>
+            <if test="clicks != null">clicks = #{clicks},</if>
+            <if test="weight != null">weight = #{weight},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="publishTime != null">publish_time = #{publishTime},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteGsArticleById" parameterType="Long">
+        delete from gs_article where id = #{id}
+    </delete>
+
+    <delete id="deleteGsArticleByIds" parameterType="String">
+        delete from gs_article where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

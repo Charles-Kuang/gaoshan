@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.journal.mapper.GsErrorLogMapper">
+    
+    <resultMap type="GsErrorLog" id="GsErrorLogResult">
+        <result property="id"    column="id"    />
+        <result property="reqMethod"    column="req_method"    />
+        <result property="executeRemark"    column="execute_remark"    />
+        <result property="reqParams"    column="req_params"    />
+        <result property="resultParams"    column="result_params"    />
+        <result property="executeTime"    column="execute_time"    />
+        <result property="reqIp"    column="req_ip"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="exceptionRemark"    column="exception_remark"    />
+        <result property="token"    column="token"    />
+    </resultMap>
+
+    <sql id="selectGsErrorLogVo">
+        select id, req_method, execute_remark, req_params, result_params, execute_time, req_ip, create_time, exception_remark, token from gs_error_log
+    </sql>
+
+    <select id="selectGsErrorLogList" parameterType="GsErrorLog" resultMap="GsErrorLogResult">
+        <include refid="selectGsErrorLogVo"/>
+        <where>  
+            <if test="reqMethod != null  and reqMethod != ''"> and req_method = #{reqMethod}</if>
+            <if test="executeRemark != null  and executeRemark != ''"> and execute_remark = #{executeRemark}</if>
+            <if test="reqParams != null  and reqParams != ''"> and req_params = #{reqParams}</if>
+            <if test="resultParams != null  and resultParams != ''"> and result_params = #{resultParams}</if>
+            <if test="executeTime != null "> and execute_time = #{executeTime}</if>
+            <if test="reqIp != null  and reqIp != ''"> and req_ip = #{reqIp}</if>
+            <if test="exceptionRemark != null  and exceptionRemark != ''"> and exception_remark = #{exceptionRemark}</if>
+            <if test="token != null  and token != ''"> and token = #{token}</if>
+        </where>
+    </select>
+    
+    <select id="selectGsErrorLogById" parameterType="Long" resultMap="GsErrorLogResult">
+        <include refid="selectGsErrorLogVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertGsErrorLog" parameterType="GsErrorLog" useGeneratedKeys="true" keyProperty="id">
+        insert into gs_error_log
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="reqMethod != null">req_method,</if>
+            <if test="executeRemark != null">execute_remark,</if>
+            <if test="reqParams != null">req_params,</if>
+            <if test="resultParams != null">result_params,</if>
+            <if test="executeTime != null">execute_time,</if>
+            <if test="reqIp != null">req_ip,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="exceptionRemark != null">exception_remark,</if>
+            <if test="token != null">token,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="reqMethod != null">#{reqMethod},</if>
+            <if test="executeRemark != null">#{executeRemark},</if>
+            <if test="reqParams != null">#{reqParams},</if>
+            <if test="resultParams != null">#{resultParams},</if>
+            <if test="executeTime != null">#{executeTime},</if>
+            <if test="reqIp != null">#{reqIp},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="exceptionRemark != null">#{exceptionRemark},</if>
+            <if test="token != null">#{token},</if>
+         </trim>
+    </insert>
+
+    <update id="updateGsErrorLog" parameterType="GsErrorLog">
+        update gs_error_log
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="reqMethod != null">req_method = #{reqMethod},</if>
+            <if test="executeRemark != null">execute_remark = #{executeRemark},</if>
+            <if test="reqParams != null">req_params = #{reqParams},</if>
+            <if test="resultParams != null">result_params = #{resultParams},</if>
+            <if test="executeTime != null">execute_time = #{executeTime},</if>
+            <if test="reqIp != null">req_ip = #{reqIp},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="exceptionRemark != null">exception_remark = #{exceptionRemark},</if>
+            <if test="token != null">token = #{token},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteGsErrorLogById" parameterType="Long">
+        delete from gs_error_log where id = #{id}
+    </delete>
+
+    <delete id="deleteGsErrorLogByIds" parameterType="String">
+        delete from gs_error_log where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

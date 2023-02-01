@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.applet.mapper.GsRegionMapper">
+
+    <resultMap type="GsRegion" id="GsRegionResult">
+        <result property="regionId" column="region_id"/>
+        <result property="parentCode" column="parent_code"/>
+        <result property="parentName" column="parent_name"/>
+        <result property="forefathers" column="forefathers"/>
+        <result property="police" column="police"/>
+        <result property="policeName" column="dept_name"/>
+        <result property="code" column="code"/>
+        <result property="name" column="name"/>
+        <result property="fullName" column="full_name"/>
+        <result property="firstLetter" column="first_letter"/>
+        <result property="lng" column="lng"/>
+        <result property="lat" column="lat"/>
+        <result property="geographicGrid" column="geographic_grid"/>
+        <result property="geographicEnity" column="geographic_enity"/>
+        <result property="type" column="type"/>
+        <result property="level" column="level"/>
+        <result property="hasChild" column="has_child"/>
+        <result property="invalidFlag" column="invalid_flag"/>
+        <result property="dataState" column="data_state"/>
+        <result property="createTime" column="create_time"/>
+        <result property="createUserId" column="create_user_id"/>
+        <result property="createUser" column="create_user"/>
+        <result property="createUserPhone" column="create_user_phone"/>
+        <result property="lastUpdateTime" column="last_update_time"/>
+        <result property="lastUpdateUser" column="last_update_user"/>
+        <result property="lastUpdateUserId" column="last_update_user_id"/>
+        <result property="lastUpdateUserPhone" column="last_update_user_phone"/>
+        <result property="auditUser" column="audit_user"/>
+        <result property="auditUserId" column="audit_user_id"/>
+        <result property="auditState" column="audit_state"/>
+        <result property="auditUserPhone" column="audit_user_phone"/>
+        <result property="commitStatus" column="commit_status"/>
+    </resultMap>
+
+    <sql id="selectGsRegionVo">
+        select region_id,parent_code,parent_name,forefathers,police,code,name,full_name,first_letter,lng,lat,geographic_grid,geographic_enity,type,level,has_child,data_state,create_time,create_user_id,create_user,create_user_phone,last_update_time,last_update_user,last_update_user_id,last_update_user_phone,audit_user,audit_user_id,audit_state,audit_user_phone,commit_status,invalid_flag
+        from gs_region
+    </sql>
+
+    <select id="selectGsRegionList" parameterType="GsRegion" resultMap="GsRegionResult">
+        select r.region_id, r.parent_code, r.parent_name, r.forefathers,r.code, r.name, r.full_name, r.first_letter, r.lng, r.lat, r.geographic_grid, r.geographic_enity, r.type, r.level, r.has_child, r.data_state, r.create_time, r.create_user_id, r.create_user, r.create_user_phone, r.last_update_time, r.last_update_user, r.last_update_user_id, r.last_update_user_phone, r.audit_user, r.audit_user_id, r.audit_state, r.audit_user_phone, r.commit_status,r.invalid_flag,
+        d.dept_name as dept_name from gs_region r left join sys_dept d on r.police = d.dept_id
+        <where>
+            <if test="parentCode != null ">and parent_code = #{parentCode}</if>
+            <if test="parentName != null ">and parent_name = #{parentName}</if>
+            <if test="forefathers != null  and forefathers != ''">and forefathers like concat('%', #{forefathers}, '%')
+            </if>
+            <if test="police != null  and police != ''">and police = #{police}</if>
+            <if test="code != null ">and code = #{code}</if>
+            <if test="name != null  and name != ''">and name like concat('%', #{name}, '%')</if>
+            <if test="fullName != null  and fullName != ''">and full_name = #{fullName}</if>
+            <if test="firstLetter != null  and firstLetter != ''">and first_letter = #{firstLetter}</if>
+            <if test="lng != null  and lng != ''">and lng = #{lng}</if>
+            <if test="lat != null  and lat != ''">and lat = #{lat}</if>
+            <if test="geographicGrid != null  and geographicGrid != ''">and geographic_grid = #{geographicGrid}</if>
+            <if test="geographicEnity != null  and geographicEnity != ''">and geographic_enity = #{geographicEnity}</if>
+            <if test="type != null  and type != ''">and type = #{type}</if>
+            <if test="level != null and level != ''">and level = #{level}</if>
+            <if test="hasChild != null  and hasChild != ''">and has_child = #{hasChild}</if>
+            <if test="createUserId != null ">and create_user_id = #{createUserId}</if>
+            <if test="createUser != null  and createUser != ''">and create_user = #{createUser}</if>
+            <if test="createUserPhone != null  and createUserPhone != ''">and create_user_phone = #{createUserPhone}
+            </if>
+            <if test="auditUser != null  and auditUser != ''">and audit_user = #{auditUser}</if>
+            <if test="auditUserId != null ">and audit_user_id = #{auditUserId}</if>
+            <if test="auditState != null ">and audit_state = #{auditState}</if>
+            <if test="auditUserPhone != null  and auditUserPhone != ''">and audit_user_phone = #{auditUserPhone}</if>
+            <if test="commitStatus != null  and commitStatus != ''">and commit_status = #{commitStatus}</if>
+            and data_state = '0'
+        </where>
+    </select>
+
+    <select id="selectGsRegionListOne" parameterType="GsRegion" resultMap="GsRegionResult">
+        <include refid="selectGsRegionVo"/>
+        <where>
+            <if test="parentCode != null ">and parent_code = #{parentCode}</if>
+            <if test="forefathers != null  and forefathers != ''">and forefathers like concat('%', #{forefathers}, '%')
+            </if>
+            <if test="code != null ">and code != #{code} and !find_in_set( #{code}, forefathers)</if>
+            <if test="name != null  and name != ''">and name like concat('%', #{name}, '%')</if>
+            <if test="level != null "><![CDATA[ and level <= #{level} ]]></if>
+            and data_state = '0'
+        </where>
+    </select>
+
+    <select id="selectGsRegionListTwo" resultType="com.ruoyi.applet.domain.vo.CityRegionVo">
+        select code cityCode, name cityName, has_child hasChild
+        from gs_region
+        where full_name like concat('贵州省', '%')
+          and level = 1 and data_state = '0'
+    </select>
+
+    <select id="selectGsRegionByCode" parameterType="Long" resultMap="GsRegionResult">
+        <include refid="selectGsRegionVo"/>
+        where code = #{code} and data_state = '0'
+    </select>
+
+    <select id="getChild" parameterType="Long" resultMap="GsRegionResult">
+        <include refid="selectGsRegionVo"/>
+        where parent_code = #{code} and data_state = '0'
+    </select>
+
+    <insert id="insertGsRegion" parameterType="GsRegion" useGeneratedKeys="true" keyProperty="regionId">
+        insert into gs_region
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="parentCode != null">parent_code,</if>
+            <if test="parentName != null">parent_name,</if>
+            <if test="forefathers != null">forefathers,</if>
+            <if test="police != null">police,</if>
+            <if test="code != null">code,</if>
+            <if test="name != null">name,</if>
+            <if test="fullName != null">full_name,</if>
+            <if test="firstLetter != null">first_letter,</if>
+            <if test="lng != null">lng,</if>
+            <if test="lat != null">lat,</if>
+            <if test="geographicGrid != null">geographic_grid,</if>
+            <if test="geographicEnity != null">geographic_enity,</if>
+            <if test="type != null">type,</if>
+            <if test="level != null">level,</if>
+            <if test="hasChild != null">has_child,</if>
+            <if test="invalidFlag != null">invalid_flag,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="createUserId != null">create_user_id,</if>
+            <if test="createUser != null">create_user,</if>
+            <if test="createUserPhone != null">create_user_phone,</if>
+            <if test="lastUpdateTime != null">last_update_time,</if>
+            <if test="lastUpdateUser != null">last_update_user,</if>
+            <if test="lastUpdateUserId != null">last_update_user_id,</if>
+            <if test="lastUpdateUserPhone != null">last_update_user_phone,</if>
+            <if test="auditUser != null">audit_user,</if>
+            <if test="auditUserId != null">audit_user_id,</if>
+            <if test="auditState != null">audit_state,</if>
+            <if test="auditUserPhone != null">audit_user_phone,</if>
+            <if test="commitStatus != null">commit_status,</if>
+            data_state
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="parentCode != null">#{parentCode},</if>
+            <if test="parentName != null">#{parentName},</if>
+            <if test="forefathers != null">#{forefathers},</if>
+            <if test="police != null">#{police},</if>
+            <if test="code != null">#{code},</if>
+            <if test="name != null">#{name},</if>
+            <if test="fullName != null">#{fullName},</if>
+            <if test="firstLetter != null">#{firstLetter},</if>
+            <if test="lng != null">#{lng},</if>
+            <if test="lat != null">#{lat},</if>
+            <if test="geographicGrid != null">#{geographicGrid},</if>
+            <if test="geographicEnity != null">#{geographicEnity},</if>
+            <if test="type != null">#{type},</if>
+            <if test="level != null">#{level},</if>
+            <if test="hasChild != null">#{hasChild},</if>
+            <if test="invalidFlag != null">#{invalidFlag},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="createUserId != null">#{createUserId},</if>
+            <if test="createUser != null">#{createUser},</if>
+            <if test="createUserPhone != null">#{createUserPhone},</if>
+            <if test="lastUpdateTime != null">#{lastUpdateTime},</if>
+            <if test="lastUpdateUser != null">#{lastUpdateUser},</if>
+            <if test="lastUpdateUserId != null">#{lastUpdateUserId},</if>
+            <if test="lastUpdateUserPhone != null">#{lastUpdateUserPhone},</if>
+            <if test="auditUser != null">#{auditUser},</if>
+            <if test="auditUserId != null">#{auditUserId},</if>
+            <if test="auditState != null">#{auditState},</if>
+            <if test="auditUserPhone != null">#{auditUserPhone},</if>
+            <if test="commitStatus != null">#{commitStatus},</if>
+            '0'
+        </trim>
+    </insert>
+
+    <update id="updateGsRegion" parameterType="GsRegion">
+        update gs_region
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="parentCode != null">parent_code = #{parentCode},</if>
+            <if test="parentName != null">parent_name = #{parentName},</if>
+            <if test="forefathers != null">forefathers = #{forefathers},</if>
+            <if test="police != null">police = #{police},</if>
+            <if test="code != null">code = #{code},</if>
+            <if test="name != null">name = #{name},</if>
+            <if test="fullName != null">full_name = #{fullName},</if>
+            <if test="firstLetter != null">first_letter = #{firstLetter},</if>
+            <if test="lng != null">lng = #{lng},</if>
+            <if test="lat != null">lat = #{lat},</if>
+            <if test="geographicGrid != null">geographic_grid = #{geographicGrid},</if>
+            <if test="geographicEnity != null">geographic_enity = #{geographicEnity},</if>
+            <if test="type != null">type = #{type},</if>
+            <if test="level != null">level = #{level},</if>
+            <if test="hasChild != null">has_child = #{hasChild},</if>
+            <if test="invalidFlag != null">invalid_flag = #{invalidFlag},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="createUserId != null">create_user_id = #{createUserId},</if>
+            <if test="createUser != null">create_user = #{createUser},</if>
+            <if test="createUserPhone != null">create_user_phone = #{createUserPhone},</if>
+            <if test="lastUpdateTime != null">last_update_time = #{lastUpdateTime},</if>
+            <if test="lastUpdateUser != null">last_update_user = #{lastUpdateUser},</if>
+            <if test="lastUpdateUserId != null">last_update_user_id = #{lastUpdateUserId},</if>
+            <if test="lastUpdateUserPhone != null">last_update_user_phone = #{lastUpdateUserPhone},</if>
+            <if test="auditUser != null">audit_user = #{auditUser},</if>
+            <if test="auditUserId != null">audit_user_id = #{auditUserId},</if>
+            <if test="auditState != null">audit_state = #{auditState},</if>
+            <if test="auditUserPhone != null">audit_user_phone = #{auditUserPhone},</if>
+            <if test="commitStatus != null">commit_status = #{commitStatus},</if>
+            data_state = '0'
+        </trim>
+        where region_id = #{regionId}
+    </update>
+
+    <update id="updateGsRegionOne" parameterType="GsRegion">
+        update gs_region
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="parentCode != null">parent_code = #{parentCode},</if>
+            <if test="parentName != null">parent_name = #{parentName},</if>
+            <if test="forefathers != null">forefathers = #{forefathers},</if>
+            <if test="police != null">police = #{police},</if>
+            <if test="name != null">name = #{name},</if>
+            <if test="fullName != null">full_name = #{fullName},</if>
+            <if test="firstLetter != null">first_letter = #{firstLetter},</if>
+            <if test="lng != null">lng = #{lng},</if>
+            <if test="lat != null">lat = #{lat},</if>
+            <if test="geographicGrid != null">geographic_grid = #{geographicGrid},</if>
+            <if test="geographicEnity != null">geographic_enity = #{geographicEnity},</if>
+            <if test="type != null">type = #{type},</if>
+            <if test="level != null">level = #{level},</if>
+            <if test="hasChild != null">has_child = #{hasChild},</if>
+            <if test="invalidFlag != null">invalid_flag = #{invalidFlag},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="createUserId != null">create_user_id = #{createUserId},</if>
+            <if test="createUser != null">create_user = #{createUser},</if>
+            <if test="createUserPhone != null">create_user_phone = #{createUserPhone},</if>
+            <if test="lastUpdateTime != null">last_update_time = #{lastUpdateTime},</if>
+            <if test="lastUpdateUser != null">last_update_user = #{lastUpdateUser},</if>
+            <if test="lastUpdateUserId != null">last_update_user_id = #{lastUpdateUserId},</if>
+            <if test="lastUpdateUserPhone != null">last_update_user_phone = #{lastUpdateUserPhone},</if>
+            <if test="auditUser != null">audit_user = #{auditUser},</if>
+            <if test="auditUserId != null">audit_user_id = #{auditUserId},</if>
+            <if test="auditState != null">audit_state = #{auditState},</if>
+            <if test="auditUserPhone != null">audit_user_phone = #{auditUserPhone},</if>
+            <if test="commitStatus != null">commit_status = #{commitStatus},</if>
+            data_state = '0'
+        </trim>
+        where code = #{code}
+    </update>
+
+    <delete id="deleteGsRegionByIds" parameterType="String">
+        update gs_region set data_state = '1' where region_id in
+        <foreach item="regionId" collection="array" open="(" separator="," close=")">
+            #{regionId}
+        </foreach>
+    </delete>
+
+    <select id="selectRegionListByRegionIds" parameterType="String" resultMap="GsRegionResult">
+        <include refid="selectGsRegionVo"/>
+        where code in
+        <foreach item="code" collection="array" open="(" separator="," close=")">
+            #{code}
+        </foreach>
+        and data_state = '0'
+    </select>
+
+    <select id="getChildOne" parameterType="Long" resultType="com.ruoyi.applet.domain.vo.CityRegionVo">
+        select code cityCode, name cityName, has_child hasChild
+        from gs_region
+        where parent_code = #{code} and data_state = '0'
+    </select>
+
+    <select id="listGsRegion" parameterType="GsRegion" resultType="com.ruoyi.applet.domain.vo.CityRegionVo">
+        select code cityCode, name cityName, has_child hasChild from gs_region
+        where name like concat('%', #{name}, '%')
+        <![CDATA[ and level <= #{level} ]]>
+        <if test="forefathers != null  and forefathers != ''">and forefathers like concat('%', #{forefathers}, '%')</if>
+        and data_state = '0'
+    </select>
+
+    <update id="updateInvalidFlag" parameterType="GsRegion">
+        update gs_region set invalid_flag = #{invalidFlag} where region_id = #{regionId}
+    </update>
+
+</mapper>

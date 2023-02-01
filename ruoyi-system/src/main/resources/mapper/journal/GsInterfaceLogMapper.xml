@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.journal.mapper.GsInterfaceLogMapper">
+    
+    <resultMap type="GsInterfaceLog" id="GsInterfaceLogResult">
+        <result property="id"    column="id"    />
+        <result property="authFlag"    column="auth_flag"    />
+        <result property="reqUrl"    column="req_url"    />
+        <result property="reqParams"    column="req_params"    />
+        <result property="resultParams"    column="result_params"    />
+        <result property="reqMethod"    column="req_method"    />
+        <result property="executeRemark"    column="execute_remark"    />
+        <result property="executeTime"    column="execute_time"    />
+        <result property="reqIp"    column="req_ip"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="excetionRemark"    column="excetion_remark"    />
+        <result property="token"    column="token"    />
+    </resultMap>
+
+    <sql id="selectGsInterfaceLogVo">
+        select id, auth_flag, req_url, req_params, result_params, req_method, execute_remark, execute_time, req_ip, create_time, excetion_remark, token from gs_interface_log
+    </sql>
+
+    <select id="selectGsInterfaceLogList" parameterType="GsInterfaceLog" resultMap="GsInterfaceLogResult">
+        <include refid="selectGsInterfaceLogVo"/>
+        <where>  
+            <if test="authFlag != null "> and auth_flag = #{authFlag}</if>
+            <if test="reqUrl != null  and reqUrl != ''"> and req_url = #{reqUrl}</if>
+            <if test="reqParams != null  and reqParams != ''"> and req_params = #{reqParams}</if>
+            <if test="resultParams != null  and resultParams != ''"> and result_params = #{resultParams}</if>
+            <if test="reqMethod != null  and reqMethod != ''"> and req_method = #{reqMethod}</if>
+            <if test="executeRemark != null  and executeRemark != ''"> and execute_remark = #{executeRemark}</if>
+            <if test="executeTime != null "> and execute_time = #{executeTime}</if>
+            <if test="reqIp != null  and reqIp != ''"> and req_ip = #{reqIp}</if>
+            <if test="excetionRemark != null  and excetionRemark != ''"> and excetion_remark = #{excetionRemark}</if>
+            <if test="token != null  and token != ''"> and token = #{token}</if>
+        </where>
+    </select>
+    
+    <select id="selectGsInterfaceLogById" parameterType="Long" resultMap="GsInterfaceLogResult">
+        <include refid="selectGsInterfaceLogVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertGsInterfaceLog" parameterType="GsInterfaceLog" useGeneratedKeys="true" keyProperty="id">
+        insert into gs_interface_log
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="authFlag != null">auth_flag,</if>
+            <if test="reqUrl != null">req_url,</if>
+            <if test="reqParams != null">req_params,</if>
+            <if test="resultParams != null">result_params,</if>
+            <if test="reqMethod != null">req_method,</if>
+            <if test="executeRemark != null">execute_remark,</if>
+            <if test="executeTime != null">execute_time,</if>
+            <if test="reqIp != null">req_ip,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="excetionRemark != null">excetion_remark,</if>
+            <if test="token != null">token,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="authFlag != null">#{authFlag},</if>
+            <if test="reqUrl != null">#{reqUrl},</if>
+            <if test="reqParams != null">#{reqParams},</if>
+            <if test="resultParams != null">#{resultParams},</if>
+            <if test="reqMethod != null">#{reqMethod},</if>
+            <if test="executeRemark != null">#{executeRemark},</if>
+            <if test="executeTime != null">#{executeTime},</if>
+            <if test="reqIp != null">#{reqIp},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="excetionRemark != null">#{excetionRemark},</if>
+            <if test="token != null">#{token},</if>
+         </trim>
+    </insert>
+
+    <update id="updateGsInterfaceLog" parameterType="GsInterfaceLog">
+        update gs_interface_log
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="authFlag != null">auth_flag = #{authFlag},</if>
+            <if test="reqUrl != null">req_url = #{reqUrl},</if>
+            <if test="reqParams != null">req_params = #{reqParams},</if>
+            <if test="resultParams != null">result_params = #{resultParams},</if>
+            <if test="reqMethod != null">req_method = #{reqMethod},</if>
+            <if test="executeRemark != null">execute_remark = #{executeRemark},</if>
+            <if test="executeTime != null">execute_time = #{executeTime},</if>
+            <if test="reqIp != null">req_ip = #{reqIp},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="excetionRemark != null">excetion_remark = #{excetionRemark},</if>
+            <if test="token != null">token = #{token},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteGsInterfaceLogById" parameterType="Long">
+        delete from gs_interface_log where id = #{id}
+    </delete>
+
+    <delete id="deleteGsInterfaceLogByIds" parameterType="String">
+        delete from gs_interface_log where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

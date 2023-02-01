@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.applet.mapper.GsAddressHouseMapper">
+    
+    <resultMap type="GsAddressHouse" id="GsAddressHouseResult">
+        <result property="id"    column="id"    />
+        <result property="qrCode"    column="qr_code"    />
+        <result property="address"    column="address"    />
+        <result property="doorPhoto"    column="door_photo"    />
+        <result property="addressType"    column="address_type"    />
+        <result property="latitude"    column="latitude"    />
+        <result property="longitude"    column="longitude"    />
+        <result property="adcode"    column="adcode"    />
+        <result property="cityCode"    column="city_code"    />
+        <result property="townCode"    column="town_code"    />
+        <result property="nationCode"    column="nation_code"    />
+        <result property="addressGroup"    column="address_group"    />
+        <result property="doorplate"    column="doorplate"    />
+        <result property="propertyType"    column="property_type"    />
+        <result property="propertyUnit"    column="property_unit"    />
+        <result property="propertyPerson"    column="property_person"    />
+        <result property="identityNumber"    column="identity_number"    />
+        <result property="phoneNumber"    column="phone_number"    />
+        <result property="houseType"    column="house_type"    />
+        <result property="buildingStructure"    column="building_structure"    />
+        <result property="roomArea"    column="room_area"    />
+        <result property="houseNumber"    column="house_number"    />
+        <result property="houseUse"    column="house_use"    />
+        <result property="livingStatus"    column="living_status"    />
+        <result property="remark"    column="remark"    />
+        <result property="createUserId"    column="create_user_id"    />
+        <result property="createUser"    column="create_user"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="createUserPhone"    column="create_user_phone"    />
+        <result property="lastUpdateUserId"    column="last_update_user_id"    />
+        <result property="lastUpdateUser"    column="last_update_user"    />
+        <result property="lastUpdateUserPhone"    column="last_update_user_phone"    />
+        <result property="lastUpdateTime"    column="last_update_time"    />
+        <result property="auditUser"    column="audit_user"    />
+        <result property="auditUserId"    column="audit_user_id"    />
+        <result property="auditState"    column="audit_state"    />
+        <result property="auditUserPhone"    column="audit_user_phone"    />
+        <result property="commitStatus"    column="commit_status"    />
+    </resultMap>
+
+    <sql id="selectGsAddressHouseVo">
+        select id, qr_code, address, door_photo, address_type, latitude, longitude, adcode, city_code, town_code, nation_code, address_group, doorplate, property_type, property_unit, property_person, identity_number, phone_number, house_type, building_structure, room_area, house_number, house_use, living_status, remark, create_user_id, create_user, create_time, create_user_phone, last_update_user_id, last_update_user, last_update_user_phone, last_update_time, audit_user, audit_user_id, audit_state, audit_user_phone, commit_status from gs_address_house
+    </sql>
+
+    <select id="selectGsAddressHouseList" parameterType="GsAddressHouse" resultMap="GsAddressHouseResult">
+        <include refid="selectGsAddressHouseVo"/>
+        <where>  
+            <if test="address != null  and address != ''"> and address = #{address}</if>
+            <if test="doorPhoto != null  and doorPhoto != ''"> and door_photo = #{doorPhoto}</if>
+            <if test="addressType != null "> and address_type = #{addressType}</if>
+            <if test="latitude != null "> and latitude = #{latitude}</if>
+            <if test="longitude != null "> and longitude = #{longitude}</if>
+            <if test="adcode != null  and adcode != ''"> and adcode = #{adcode}</if>
+            <if test="cityCode != null  and cityCode != ''"> and city_code = #{cityCode}</if>
+            <if test="townCode != null  and townCode != ''"> and town_code = #{townCode}</if>
+            <if test="nationCode != null  and nationCode != ''"> and nation_code = #{nationCode}</if>
+            <if test="addressGroup != null  and addressGroup != ''"> and address_group = #{addressGroup}</if>
+            <if test="doorplate != null  and doorplate != ''"> and doorplate = #{doorplate}</if>
+            <if test="propertyType != null "> and property_type = #{propertyType}</if>
+            <if test="propertyUnit != null  and propertyUnit != ''"> and property_unit = #{propertyUnit}</if>
+            <if test="propertyPerson != null  and propertyPerson != ''"> and property_person = #{propertyPerson}</if>
+            <if test="identityNumber != null  and identityNumber != ''"> and identity_number = #{identityNumber}</if>
+            <if test="phoneNumber != null  and phoneNumber != ''"> and phone_number = #{phoneNumber}</if>
+            <if test="houseType != null "> and house_type = #{houseType}</if>
+            <if test="buildingStructure != null  and buildingStructure != ''"> and building_structure = #{buildingStructure}</if>
+            <if test="roomArea != null "> and room_area = #{roomArea}</if>
+            <if test="houseNumber != null "> and house_number = #{houseNumber}</if>
+            <if test="houseUse != null  and houseUse != ''"> and house_use = #{houseUse}</if>
+            <if test="livingStatus != null  and livingStatus != ''"> and living_status = #{livingStatus}</if>
+            <if test="createUserId != null "> and create_user_id = #{createUserId}</if>
+            <if test="createUser != null  and createUser != ''"> and create_user = #{createUser}</if>
+            <if test="createUserPhone != null  and createUserPhone != ''"> and create_user_phone = #{createUserPhone}</if>
+            <if test="lastUpdateUserId != null "> and last_update_user_id = #{lastUpdateUserId}</if>
+            <if test="lastUpdateUser != null "> and last_update_user = #{lastUpdateUser}</if>
+            <if test="lastUpdateUserPhone != null "> and last_update_user_phone = #{lastUpdateUserPhone}</if>
+            <if test="lastUpdateTime != null "> and last_update_time = #{lastUpdateTime}</if>
+            <if test="auditUser != null  and auditUser != ''"> and audit_user = #{auditUser}</if>
+            <if test="auditUserId != null "> and audit_user_id = #{auditUserId}</if>
+            <if test="auditState != null "> and audit_state = #{auditState}</if>
+            <if test="auditUserPhone != null  and auditUserPhone != ''"> and audit_user_phone = #{auditUserPhone}</if>
+            <if test="commitStatus != null "> and commit_status = #{commitStatus}</if>
+        </where>
+    </select>
+    
+    <select id="selectGsAddressHouseById" parameterType="Long" resultMap="GsAddressHouseResult">
+        <include refid="selectGsAddressHouseVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertGsAddressHouse" parameterType="GsAddressHouse" useGeneratedKeys="true" keyProperty="id">
+        insert into gs_address_house
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="qrCode != null">qr_code,</if>
+            <if test="address != null">address,</if>
+            <if test="doorPhoto != null">door_photo,</if>
+            <if test="addressType != null">address_type,</if>
+            <if test="latitude != null">latitude,</if>
+            <if test="longitude != null">longitude,</if>
+            <if test="adcode != null">adcode,</if>
+            <if test="cityCode != null">city_code,</if>
+            <if test="townCode != null">town_code,</if>
+            <if test="nationCode != null">nation_code,</if>
+            <if test="addressGroup != null">address_group,</if>
+            <if test="doorplate != null">doorplate,</if>
+            <if test="propertyType != null">property_type,</if>
+            <if test="propertyUnit != null">property_unit,</if>
+            <if test="propertyPerson != null">property_person,</if>
+            <if test="identityNumber != null">identity_number,</if>
+            <if test="phoneNumber != null">phone_number,</if>
+            <if test="houseType != null">house_type,</if>
+            <if test="buildingStructure != null">building_structure,</if>
+            <if test="roomArea != null">room_area,</if>
+            <if test="houseNumber != null">house_number,</if>
+            <if test="houseUse != null">house_use,</if>
+            <if test="livingStatus != null">living_status,</if>
+            <if test="remark != null">remark,</if>
+            <if test="createUserId != null">create_user_id,</if>
+            <if test="createUser != null">create_user,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="createUserPhone != null">create_user_phone,</if>
+            <if test="lastUpdateUserId != null">last_update_user_id,</if>
+            <if test="lastUpdateUser != null">last_update_user,</if>
+            <if test="lastUpdateUserPhone != null">last_update_user_phone,</if>
+            <if test="lastUpdateTime != null">last_update_time,</if>
+            <if test="auditUser != null">audit_user,</if>
+            <if test="auditUserId != null">audit_user_id,</if>
+            <if test="auditState != null">audit_state,</if>
+            <if test="auditUserPhone != null">audit_user_phone,</if>
+            <if test="commitStatus != null">commit_status,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="qrCode != null">#{qrCode},</if>
+            <if test="address != null">#{address},</if>
+            <if test="doorPhoto != null">#{doorPhoto},</if>
+            <if test="addressType != null">#{addressType},</if>
+            <if test="latitude != null">#{latitude},</if>
+            <if test="longitude != null">#{longitude},</if>
+            <if test="adcode != null">#{adcode},</if>
+            <if test="cityCode != null">#{cityCode},</if>
+            <if test="townCode != null">#{townCode},</if>
+            <if test="nationCode != null">#{nationCode},</if>
+            <if test="addressGroup != null">#{addressGroup},</if>
+            <if test="doorplate != null">#{doorplate},</if>
+            <if test="propertyType != null">#{propertyType},</if>
+            <if test="propertyUnit != null">#{propertyUnit},</if>
+            <if test="propertyPerson != null">#{propertyPerson},</if>
+            <if test="identityNumber != null">#{identityNumber},</if>
+            <if test="phoneNumber != null">#{phoneNumber},</if>
+            <if test="houseType != null">#{houseType},</if>
+            <if test="buildingStructure != null">#{buildingStructure},</if>
+            <if test="roomArea != null">#{roomArea},</if>
+            <if test="houseNumber != null">#{houseNumber},</if>
+            <if test="houseUse != null">#{houseUse},</if>
+            <if test="livingStatus != null">#{livingStatus},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="createUserId != null">#{createUserId},</if>
+            <if test="createUser != null">#{createUser},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="createUserPhone != null">#{createUserPhone},</if>
+            <if test="lastUpdateUserId != null">#{lastUpdateUserId},</if>
+            <if test="lastUpdateUser != null">#{lastUpdateUser},</if>
+            <if test="lastUpdateUserPhone != null">#{lastUpdateUserPhone},</if>
+            <if test="lastUpdateTime != null">#{lastUpdateTime},</if>
+            <if test="auditUser != null">#{auditUser},</if>
+            <if test="auditUserId != null">#{auditUserId},</if>
+            <if test="auditState != null">#{auditState},</if>
+            <if test="auditUserPhone != null">#{auditUserPhone},</if>
+            <if test="commitStatus != null">#{commitStatus},</if>
+         </trim>
+    </insert>
+
+    <update id="updateGsAddressHouse" parameterType="GsAddressHouse">
+        update gs_address_house
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="qrCode != null">qr_code = #{qrCode},</if>
+            <if test="address != null">address = #{address},</if>
+            <if test="doorPhoto != null">door_photo = #{doorPhoto},</if>
+            <if test="addressType != null">address_type = #{addressType},</if>
+            <if test="latitude != null">latitude = #{latitude},</if>
+            <if test="longitude != null">longitude = #{longitude},</if>
+            <if test="adcode != null">adcode = #{adcode},</if>
+            <if test="cityCode != null">city_code = #{cityCode},</if>
+            <if test="townCode != null">town_code = #{townCode},</if>
+            <if test="nationCode != null">nation_code = #{nationCode},</if>
+            <if test="addressGroup != null">address_group = #{addressGroup},</if>
+            <if test="doorplate != null">doorplate = #{doorplate},</if>
+            <if test="propertyType != null">property_type = #{propertyType},</if>
+            <if test="propertyUnit != null">property_unit = #{propertyUnit},</if>
+            <if test="propertyPerson != null">property_person = #{propertyPerson},</if>
+            <if test="identityNumber != null">identity_number = #{identityNumber},</if>
+            <if test="phoneNumber != null">phone_number = #{phoneNumber},</if>
+            <if test="houseType != null">house_type = #{houseType},</if>
+            <if test="buildingStructure != null">building_structure = #{buildingStructure},</if>
+            <if test="roomArea != null">room_area = #{roomArea},</if>
+            <if test="houseNumber != null">house_number = #{houseNumber},</if>
+            <if test="houseUse != null">house_use = #{houseUse},</if>
+            <if test="livingStatus != null">living_status = #{livingStatus},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="createUserId != null">create_user_id = #{createUserId},</if>
+            <if test="createUser != null">create_user = #{createUser},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="createUserPhone != null">create_user_phone = #{createUserPhone},</if>
+            <if test="lastUpdateUserId != null">last_update_user_id = #{lastUpdateUserId},</if>
+            <if test="lastUpdateUser != null">last_update_user = #{lastUpdateUser},</if>
+            <if test="lastUpdateUserPhone != null">last_update_user_phone = #{lastUpdateUserPhone},</if>
+            <if test="lastUpdateTime != null">last_update_time = #{lastUpdateTime},</if>
+            <if test="auditUser != null">audit_user = #{auditUser},</if>
+            <if test="auditUserId != null">audit_user_id = #{auditUserId},</if>
+            <if test="auditState != null">audit_state = #{auditState},</if>
+            <if test="auditUserPhone != null">audit_user_phone = #{auditUserPhone},</if>
+            <if test="commitStatus != null">commit_status = #{commitStatus},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteGsAddressHouseById" parameterType="Long">
+        delete from gs_address_house where id = #{id}
+    </delete>
+
+    <delete id="deleteGsAddressHouseByIds" parameterType="String">
+        delete from gs_address_house where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

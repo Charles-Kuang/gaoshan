@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.applet.mapper.GsRegionDetailMapper">
+
+    <resultMap type="GsRegionDetail" id="GsRegionDetailResult">
+        <result property="addressId" column="address_id"/>
+        <result property="regionId" column="region_id"/>
+        <result property="addressDetail" column="address_detail"/>
+        <result property="lng" column="lng"/>
+        <result property="lat" column="lat"/>
+        <result property="createTime" column="create_time"/>
+        <result property="createUserId" column="create_user_id"/>
+        <result property="createUser" column="create_user"/>
+        <result property="createUserPhone" column="create_user_phone"/>
+        <result property="lastUpdateTime" column="last_update_time"/>
+        <result property="lastUpdateUser" column="last_update_user"/>
+        <result property="lastUpdateUserId" column="last_update_user_id"/>
+        <result property="lastUpdateUserPhone" column="last_update_user_phone"/>
+        <result property="auditUser" column="audit_user"/>
+        <result property="auditUserId" column="audit_user_id"/>
+        <result property="auditState" column="audit_state"/>
+        <result property="auditUserPhone" column="audit_user_phone"/>
+        <result property="commitStatus" column="commit_status"/>
+    </resultMap>
+
+    <sql id="selectGsRegionDetailVo">
+        select address_id,
+               region_id,
+               address_detail,
+               lng,
+               lat,
+               create_time,
+               create_user_id,
+               create_user,
+               create_user_phone,
+               last_update_time,
+               last_update_user,
+               last_update_user_id,
+               last_update_user_phone,
+               audit_user,
+               audit_user_id,
+               audit_state,
+               audit_user_phone,
+               commit_status
+        from gs_region_detail
+    </sql>
+
+    <select id="selectGsRegionDetailList" parameterType="GsRegionDetail" resultMap="GsRegionDetailResult">
+        <include refid="selectGsRegionDetailVo"/>
+        <where>
+            <if test="regionId != null ">and region_id = #{regionId}</if>
+            <if test="addressDetail != null  and addressDetail != ''">and address_detail = #{addressDetail}</if>
+            <if test="lng != null ">and lng = #{lng}</if>
+            <if test="lat != null ">and lat = #{lat}</if>
+            <if test="createUserId != null ">and create_user_id = #{createUserId}</if>
+            <if test="createUser != null  and createUser != ''">and create_user = #{createUser}</if>
+            <if test="createUserPhone != null  and createUserPhone != ''">and create_user_phone = #{createUserPhone}
+            </if>
+            <if test="lastUpdateTime != null ">and last_update_time = #{lastUpdateTime}</if>
+            <if test="lastUpdateUser != null  and lastUpdateUser != ''">and last_update_user = #{lastUpdateUser}</if>
+            <if test="lastUpdateUserId != null ">and last_update_user_id = #{lastUpdateUserId}</if>
+            <if test="lastUpdateUserPhone != null  and lastUpdateUserPhone != ''">and last_update_user_phone =
+                #{lastUpdateUserPhone}
+            </if>
+            <if test="auditUser != null  and auditUser != ''">and audit_user = #{auditUser}</if>
+            <if test="auditUserId != null ">and audit_user_id = #{auditUserId}</if>
+            <if test="auditState != null ">and audit_state = #{auditState}</if>
+            <if test="auditUserPhone != null  and auditUserPhone != ''">and audit_user_phone = #{auditUserPhone}</if>
+            <if test="commitStatus != null  and commitStatus != ''">and commit_status = #{commitStatus}</if>
+        </where>
+    </select>
+
+    <select id="selectGsRegionDetailById" parameterType="Long" resultMap="GsRegionDetailResult">
+        <include refid="selectGsRegionDetailVo"/>
+        where address_id = #{addressId}
+    </select>
+
+    <insert id="insertGsRegionDetail" parameterType="GsRegionDetail" useGeneratedKeys="true" keyProperty="addressId">
+        insert into gs_region_detail
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="regionId != null">region_id,</if>
+            <if test="addressDetail != null">address_detail,</if>
+            <if test="lng != null">lng,</if>
+            <if test="lat != null">lat,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="createUserId != null">create_user_id,</if>
+            <if test="createUser != null">create_user,</if>
+            <if test="createUserPhone != null">create_user_phone,</if>
+            <if test="lastUpdateTime != null">last_update_time,</if>
+            <if test="lastUpdateUser != null">last_update_user,</if>
+            <if test="lastUpdateUserId != null">last_update_user_id,</if>
+            <if test="lastUpdateUserPhone != null">last_update_user_phone,</if>
+            <if test="auditUser != null">audit_user,</if>
+            <if test="auditUserId != null">audit_user_id,</if>
+            <if test="auditState != null">audit_state,</if>
+            <if test="auditUserPhone != null">audit_user_phone,</if>
+            <if test="commitStatus != null">commit_status,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="regionId != null">#{regionId},</if>
+            <if test="addressDetail != null">#{addressDetail},</if>
+            <if test="lng != null">#{lng},</if>
+            <if test="lat != null">#{lat},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="createUserId != null">#{createUserId},</if>
+            <if test="createUser != null">#{createUser},</if>
+            <if test="createUserPhone != null">#{createUserPhone},</if>
+            <if test="lastUpdateTime != null">#{lastUpdateTime},</if>
+            <if test="lastUpdateUser != null">#{lastUpdateUser},</if>
+            <if test="lastUpdateUserId != null">#{lastUpdateUserId},</if>
+            <if test="lastUpdateUserPhone != null">#{lastUpdateUserPhone},</if>
+            <if test="auditUser != null">#{auditUser},</if>
+            <if test="auditUserId != null">#{auditUserId},</if>
+            <if test="auditState != null">#{auditState},</if>
+            <if test="auditUserPhone != null">#{auditUserPhone},</if>
+            <if test="commitStatus != null">#{commitStatus},</if>
+        </trim>
+    </insert>
+
+    <update id="updateGsRegionDetail" parameterType="GsRegionDetail">
+        update gs_region_detail
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="regionId != null">region_id = #{regionId},</if>
+            <if test="addressDetail != null">address_detail = #{addressDetail},</if>
+            <if test="lng != null">lng = #{lng},</if>
+            <if test="lat != null">lat = #{lat},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="createUserId != null">create_user_id = #{createUserId},</if>
+            <if test="createUser != null">create_user = #{createUser},</if>
+            <if test="createUserPhone != null">create_user_phone = #{createUserPhone},</if>
+            <if test="lastUpdateTime != null">last_update_time = #{lastUpdateTime},</if>
+            <if test="lastUpdateUser != null">last_update_user = #{lastUpdateUser},</if>
+            <if test="lastUpdateUserId != null">last_update_user_id = #{lastUpdateUserId},</if>
+            <if test="lastUpdateUserPhone != null">last_update_user_phone = #{lastUpdateUserPhone},</if>
+            <if test="auditUser != null">audit_user = #{auditUser},</if>
+            <if test="auditUserId != null">audit_user_id = #{auditUserId},</if>
+            <if test="auditState != null">audit_state = #{auditState},</if>
+            <if test="auditUserPhone != null">audit_user_phone = #{auditUserPhone},</if>
+            <if test="commitStatus != null">commit_status = #{commitStatus},</if>
+        </trim>
+        where address_id = #{addressId}
+    </update>
+
+    <delete id="deleteGsRegionDetailById" parameterType="Long">
+        delete
+        from gs_region_detail
+        where address_id = #{addressId}
+    </delete>
+
+    <delete id="deleteGsRegionDetailByIds" parameterType="String">
+        delete from gs_region_detail where address_id in
+        <foreach item="addressId" collection="array" open="(" separator="," close=")">
+            #{addressId}
+        </foreach>
+    </delete>
+</mapper>

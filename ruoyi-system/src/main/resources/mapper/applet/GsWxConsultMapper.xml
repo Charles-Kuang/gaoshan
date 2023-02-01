@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.applet.mapper.GsWxConsultMapper">
+    
+    <resultMap type="GsWxConsult" id="GsWxConsultResult">
+        <result property="id"    column="id"    />
+        <result property="theme"    column="theme"    />
+        <result property="matter"    column="matter"    />
+        <result property="slogan"    column="slogan"    />
+        <result property="thumbnail"    column="thumbnail"    />
+        <result property="hint"    column="hint"    />
+    </resultMap>
+
+    <sql id="selectGsWxConsultVo">
+        select id, theme, matter, slogan, thumbnail, hint from gs_wx_consult
+    </sql>
+
+    <select id="selectGsWxConsultList" parameterType="GsWxConsult" resultMap="GsWxConsultResult">
+        <include refid="selectGsWxConsultVo"/>
+        <where>  
+            <if test="theme != null  and theme != ''"> and theme = #{theme}</if>
+            <if test="matter != null  and matter != ''"> and matter = #{matter}</if>
+            <if test="slogan != null  and slogan != ''"> and slogan = #{slogan}</if>
+            <if test="thumbnail != null  and thumbnail != ''"> and thumbnail = #{thumbnail}</if>
+            <if test="hint != null  and hint != ''"> and hint = #{hint}</if>
+        </where>
+    </select>
+    
+    <select id="selectGsWxConsultById" parameterType="Long" resultMap="GsWxConsultResult">
+        <include refid="selectGsWxConsultVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertGsWxConsult" parameterType="GsWxConsult" useGeneratedKeys="true" keyProperty="id">
+        insert into gs_wx_consult
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="theme != null and theme != ''">theme,</if>
+            <if test="matter != null">matter,</if>
+            <if test="slogan != null">slogan,</if>
+            <if test="thumbnail != null">thumbnail,</if>
+            <if test="hint != null">hint,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="theme != null and theme != ''">#{theme},</if>
+            <if test="matter != null">#{matter},</if>
+            <if test="slogan != null">#{slogan},</if>
+            <if test="thumbnail != null">#{thumbnail},</if>
+            <if test="hint != null">#{hint},</if>
+         </trim>
+    </insert>
+
+    <update id="updateGsWxConsult" parameterType="GsWxConsult">
+        update gs_wx_consult
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="theme != null and theme != ''">theme = #{theme},</if>
+            <if test="matter != null">matter = #{matter},</if>
+            <if test="slogan != null">slogan = #{slogan},</if>
+            <if test="thumbnail != null">thumbnail = #{thumbnail},</if>
+            <if test="hint != null">hint = #{hint},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteGsWxConsultById" parameterType="Long">
+        delete from gs_wx_consult where id = #{id}
+    </delete>
+
+    <delete id="deleteGsWxConsultByIds" parameterType="String">
+        delete from gs_wx_consult where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

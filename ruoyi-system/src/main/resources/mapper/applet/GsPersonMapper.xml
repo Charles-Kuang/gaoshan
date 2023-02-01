@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.applet.mapper.GsPersonMapper">
+    
+    <resultMap type="GsPerson" id="GsPersonResult">
+        <result property="personId"    column="person_id"    />
+        <result property="addressId"    column="address_id"    />
+        <result property="addressDetail"    column="address_detail"    />
+        <result property="identityType"    column="identity_type"    />
+        <result property="identityReverse"    column="identity_reverse"    />
+        <result property="identityFront"    column="identity_front"    />
+        <result property="identityNumber"    column="identity_number"    />
+        <result property="name"    column="name"    />
+        <result property="usedName"    column="used_name"    />
+        <result property="sex"    column="sex"    />
+        <result property="personImg"    column="person_img"    />
+        <result property="englishName"    column="english_name"    />
+        <result property="personType"    column="person_type"    />
+        <result property="age"    column="age"    />
+        <result property="nation"    column="nation"    />
+        <result property="birthday"    column="birthday"    />
+        <result property="nativePlaceAddressId"    column="native_place_address_id"    />
+        <result property="nativePlaceAddressDetail"    column="native_place_address_detail"    />
+        <result property="job"    column="job"    />
+        <result property="education"    column="education"    />
+        <result property="nowUnitId"    column="now_unit_id"    />
+        <result property="marital"    column="marital"    />
+        <result property="phoneNumber"    column="phone_number"    />
+        <result property="reason"    column="reason"    />
+        <result property="employment"    column="employment"    />
+        <result property="dataState"    column="data_state"    />
+        <result property="remark"    column="remark"    />
+        <result property="createUserId"    column="create_user_id"    />
+        <result property="createUserPhone"    column="create_user_phone"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="createUser"    column="create_user"    />
+        <result property="lastUpdateUser"    column="last_update_user"    />
+        <result property="lastUpdateUserId"    column="last_update_user_id"    />
+        <result property="lastUpdateUserPhone"    column="last_update_user_phone"    />
+        <result property="lastUpdateTime"    column="last_update_time"    />
+        <result property="auditState"    column="audit_state"    />
+        <result property="auditUser"    column="audit_user"    />
+        <result property="auditUserId"    column="audit_user_id"    />
+        <result property="auditUserPhone"    column="audit_user_phone"    />
+        <result property="commitStatus"    column="commit_status"    />
+        <result property="attentionLevel"    column="attention_level"    />
+        <result property="celebrity"    column="celebrity"    />
+        <result property="supportObject"    column="support_object"    />
+        <result property="specialty"    column="specialty"    />
+        <result property="vehicle"    column="vehicle"    />
+    </resultMap>
+
+    <sql id="selectGsPersonVo">
+        select person_id, address_id, address_detail, identity_type, identity_reverse, identity_front, identity_number, name, used_name, sex, person_img, english_name, person_type, age, nation, birthday, native_place_address_id, native_place_address_detail, job, education, now_unit_id, marital, phone_number, reason, employment, data_state, remark, create_user_id, create_user_phone, create_time, create_user, last_update_user, last_update_user_id, last_update_user_phone, last_update_time, audit_state, audit_user, audit_user_id, audit_user_phone, commit_status, attention_level, celebrity, support_object, specialty, vehicle from gs_person
+    </sql>
+
+    <select id="selectGsPersonList" parameterType="GsPerson" resultMap="GsPersonResult">
+        <include refid="selectGsPersonVo"/>
+        <where>
+            <if test="addressId != null "> and address_id = #{addressId}</if>
+            <if test="addressDetail != null  and addressDetail != ''"> and address_detail = #{addressDetail}</if>
+            <if test="identityType != null  and identityType != ''"> and identity_type = #{identityType}</if>
+            <if test="identityReverse != null  and identityReverse != ''"> and identity_reverse = #{identityReverse}</if>
+            <if test="identityFront != null  and identityFront != ''"> and identity_front = #{identityFront}</if>
+            <if test="identityNumber != null  and identityNumber != ''"> and identity_number = #{identityNumber}</if>
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="usedName != null  and usedName != ''"> and used_name like concat('%', #{usedName}, '%')</if>
+            <if test="sex != null  and sex != ''"> and sex = #{sex}</if>
+            <if test="personImg != null  and personImg != ''"> and person_img = #{personImg}</if>
+            <if test="englishName != null  and englishName != ''"> and english_name like concat('%', #{englishName}, '%')</if>
+            <if test="personType != null  and personType != ''"> and person_type = #{personType}</if>
+            <if test="age != null "> and age = #{age}</if>
+            <if test="nation != null  and nation != ''"> and nation = #{nation}</if>
+            <if test="birthday != null "> and birthday = #{birthday}</if>
+            <if test="nativePlaceAddressId != null  and nativePlaceAddressId != ''"> and native_place_address_id = #{nativePlaceAddressId}</if>
+            <if test="nativePlaceAddressDetail != null  and nativePlaceAddressDetail != ''"> and native_place_address_detail = #{nativePlaceAddressDetail}</if>
+            <if test="job != null  and job != ''"> and job = #{job}</if>
+            <if test="education != null  and education != ''"> and education = #{education}</if>
+            <if test="nowUnitId != null  and nowUnitId != ''"> and now_unit_id = #{nowUnitId}</if>
+            <if test="marital != null  and marital != ''"> and marital = #{marital}</if>
+            <if test="phoneNumber != null  and phoneNumber != ''"> and phone_number = #{phoneNumber}</if>
+            <if test="reason != null  and reason != ''"> and reason = #{reason}</if>
+            <if test="employment != null  and employment != ''"> and employment = #{employment}</if>
+            <if test="createUserId != null "> and create_user_id = #{createUserId}</if>
+            <if test="createUserPhone != null  and createUserPhone != ''"> and create_user_phone = #{createUserPhone}</if>
+            <if test="createUser != null  and createUser != ''"> and create_user = #{createUser}</if>
+            <if test="lastUpdateUser != null  and lastUpdateUser != ''"> and last_update_user = #{lastUpdateUser}</if>
+            <if test="lastUpdateUserId != null "> and last_update_user_id = #{lastUpdateUserId}</if>
+            <if test="lastUpdateUserPhone != null  and lastUpdateUserPhone != ''"> and last_update_user_phone = #{lastUpdateUserPhone}</if>
+            <if test="lastUpdateTime != null "> and last_update_time = #{lastUpdateTime}</if>
+            <if test="auditState != null "> and audit_state = #{auditState}</if>
+            <if test="auditUser != null  and auditUser != ''"> and audit_user = #{auditUser}</if>
+            <if test="auditUserId != null "> and audit_user_id = #{auditUserId}</if>
+            <if test="auditUserPhone != null  and auditUserPhone != ''"> and audit_user_phone = #{auditUserPhone}</if>
+            <if test="commitStatus != null "> and commit_status = #{commitStatus}</if>
+            <if test="attentionLevel != null "> and attention_level = #{attentionLevel}</if>
+            <if test="celebrity != null "> and celebrity = #{celebrity}</if>
+            <if test="supportObject != null "> and support_object = #{supportObject}</if>
+            <if test="specialty != null  and specialty != ''"> and specialty = #{specialty}</if>
+            <if test="vehicle != null  and vehicle != ''"> and vehicle = #{vehicle}</if>
+            and data_state = '0'
+        </where>
+    </select>
+
+    <select id="selectGsPersonById" parameterType="Long" resultMap="GsPersonResult">
+        <include refid="selectGsPersonVo"/>
+        where person_id = #{personId} and data_state = '0'
+    </select>
+
+    <insert id="insertGsPerson" parameterType="GsPerson" useGeneratedKeys="true" keyProperty="personId">
+        insert into gs_person
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="addressId != null">address_id,</if>
+            <if test="addressDetail != null">address_detail,</if>
+            <if test="identityType != null">identity_type,</if>
+            <if test="identityReverse != null">identity_reverse,</if>
+            <if test="identityFront != null">identity_front,</if>
+            <if test="identityNumber != null">identity_number,</if>
+            <if test="name != null">name,</if>
+            <if test="usedName != null">used_name,</if>
+            <if test="sex != null">sex,</if>
+            <if test="personImg != null">person_img,</if>
+            <if test="englishName != null">english_name,</if>
+            <if test="personType != null">person_type,</if>
+            <if test="age != null">age,</if>
+            <if test="nation != null">nation,</if>
+            <if test="birthday != null">birthday,</if>
+            <if test="nativePlaceAddressId != null">native_place_address_id,</if>
+            <if test="nativePlaceAddressDetail != null">native_place_address_detail,</if>
+            <if test="job != null">job,</if>
+            <if test="education != null">education,</if>
+            <if test="nowUnitId != null">now_unit_id,</if>
+            <if test="marital != null">marital,</if>
+            <if test="phoneNumber != null">phone_number,</if>
+            <if test="reason != null">reason,</if>
+            <if test="employment != null">employment,</if>
+            <if test="remark != null">remark,</if>
+            <if test="createUserId != null">create_user_id,</if>
+            <if test="createUserPhone != null">create_user_phone,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="createUser != null">create_user,</if>
+            <if test="lastUpdateUser != null">last_update_user,</if>
+            <if test="lastUpdateUserId != null">last_update_user_id,</if>
+            <if test="lastUpdateUserPhone != null">last_update_user_phone,</if>
+            <if test="lastUpdateTime != null">last_update_time,</if>
+            <if test="auditState != null">audit_state,</if>
+            <if test="auditUser != null">audit_user,</if>
+            <if test="auditUserId != null">audit_user_id,</if>
+            <if test="auditUserPhone != null">audit_user_phone,</if>
+            <if test="commitStatus != null">commit_status,</if>
+            <if test="attentionLevel != null">attention_level,</if>
+            <if test="celebrity != null">celebrity,</if>
+            <if test="supportObject != null">support_object,</if>
+            <if test="specialty != null">specialty,</if>
+            <if test="vehicle != null">vehicle,</if>
+            data_state
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="addressId != null">#{addressId},</if>
+            <if test="addressDetail != null">#{addressDetail},</if>
+            <if test="identityType != null">#{identityType},</if>
+            <if test="identityReverse != null">#{identityReverse},</if>
+            <if test="identityFront != null">#{identityFront},</if>
+            <if test="identityNumber != null">#{identityNumber},</if>
+            <if test="name != null">#{name},</if>
+            <if test="usedName != null">#{usedName},</if>
+            <if test="sex != null">#{sex},</if>
+            <if test="personImg != null">#{personImg},</if>
+            <if test="englishName != null">#{englishName},</if>
+            <if test="personType != null">#{personType},</if>
+            <if test="age != null">#{age},</if>
+            <if test="nation != null">#{nation},</if>
+            <if test="birthday != null">#{birthday},</if>
+            <if test="nativePlaceAddressId != null">#{nativePlaceAddressId},</if>
+            <if test="nativePlaceAddressDetail != null">#{nativePlaceAddressDetail},</if>
+            <if test="job != null">#{job},</if>
+            <if test="education != null">#{education},</if>
+            <if test="nowUnitId != null">#{nowUnitId},</if>
+            <if test="marital != null">#{marital},</if>
+            <if test="phoneNumber != null">#{phoneNumber},</if>
+            <if test="reason != null">#{reason},</if>
+            <if test="employment != null">#{employment},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="createUserId != null">#{createUserId},</if>
+            <if test="createUserPhone != null">#{createUserPhone},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="createUser != null">#{createUser},</if>
+            <if test="lastUpdateUser != null">#{lastUpdateUser},</if>
+            <if test="lastUpdateUserId != null">#{lastUpdateUserId},</if>
+            <if test="lastUpdateUserPhone != null">#{lastUpdateUserPhone},</if>
+            <if test="lastUpdateTime != null">#{lastUpdateTime},</if>
+            <if test="auditState != null">#{auditState},</if>
+            <if test="auditUser != null">#{auditUser},</if>
+            <if test="auditUserId != null">#{auditUserId},</if>
+            <if test="auditUserPhone != null">#{auditUserPhone},</if>
+            <if test="commitStatus != null">#{commitStatus},</if>
+            <if test="attentionLevel != null">#{attentionLevel},</if>
+            <if test="celebrity != null">#{celebrity},</if>
+            <if test="supportObject != null">#{supportObject},</if>
+            <if test="specialty != null">#{specialty},</if>
+            <if test="vehicle != null">#{vehicle},</if>
+            '0'
+        </trim>
+    </insert>
+
+    <update id="updateGsPerson" parameterType="GsPerson">
+        update gs_person
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="addressId != null">address_id = #{addressId},</if>
+            <if test="addressDetail != null">address_detail = #{addressDetail},</if>
+            <if test="identityType != null">identity_type = #{identityType},</if>
+            <if test="identityReverse != null">identity_reverse = #{identityReverse},</if>
+            <if test="identityFront != null">identity_front = #{identityFront},</if>
+            <if test="identityNumber != null">identity_number = #{identityNumber},</if>
+            <if test="name != null">name = #{name},</if>
+            <if test="usedName != null">used_name = #{usedName},</if>
+            <if test="sex != null">sex = #{sex},</if>
+            <if test="personImg != null">person_img = #{personImg},</if>
+            <if test="englishName != null">english_name = #{englishName},</if>
+            <if test="personType != null">person_type = #{personType},</if>
+            <if test="age != null">age = #{age},</if>
+            <if test="nation != null">nation = #{nation},</if>
+            <if test="birthday != null">birthday = #{birthday},</if>
+            <if test="nativePlaceAddressId != null">native_place_address_id = #{nativePlaceAddressId},</if>
+            <if test="nativePlaceAddressDetail != null">native_place_address_detail = #{nativePlaceAddressDetail},</if>
+            <if test="job != null">job = #{job},</if>
+            <if test="education != null">education = #{education},</if>
+            <if test="nowUnitId != null">now_unit_id = #{nowUnitId},</if>
+            <if test="marital != null">marital = #{marital},</if>
+            <if test="phoneNumber != null">phone_number = #{phoneNumber},</if>
+            <if test="reason != null">reason = #{reason},</if>
+            <if test="employment != null">employment = #{employment},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="createUserId != null">create_user_id = #{createUserId},</if>
+            <if test="createUserPhone != null">create_user_phone = #{createUserPhone},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="createUser != null">create_user = #{createUser},</if>
+            <if test="lastUpdateUser != null">last_update_user = #{lastUpdateUser},</if>
+            <if test="lastUpdateUserId != null">last_update_user_id = #{lastUpdateUserId},</if>
+            <if test="lastUpdateUserPhone != null">last_update_user_phone = #{lastUpdateUserPhone},</if>
+            <if test="lastUpdateTime != null">last_update_time = #{lastUpdateTime},</if>
+            <if test="auditState != null">audit_state = #{auditState},</if>
+            <if test="auditUser != null">audit_user = #{auditUser},</if>
+            <if test="auditUserId != null">audit_user_id = #{auditUserId},</if>
+            <if test="auditUserPhone != null">audit_user_phone = #{auditUserPhone},</if>
+            <if test="commitStatus != null">commit_status = #{commitStatus},</if>
+            <if test="attentionLevel != null">attention_level = #{attentionLevel},</if>
+            <if test="celebrity != null">celebrity = #{celebrity},</if>
+            <if test="supportObject != null">support_object = #{supportObject},</if>
+            <if test="specialty != null">specialty = #{specialty},</if>
+            <if test="vehicle != null">vehicle = #{vehicle},</if>
+            data_state = '0'
+        </trim>
+        where person_id = #{personId}
+    </update>
+
+    <delete id="deleteGsPersonById" parameterType="Long">
+        update gs_person set data_state = '1' where person_id = #{personId}
+    </delete>
+
+    <delete id="deleteGsPersonByIds" parameterType="String">
+        update gs_person set data_state = '1' where person_id in
+        <foreach item="personId" collection="array" open="(" separator="," close=")">
+            #{personId}
+        </foreach>
+    </delete>
+</mapper>

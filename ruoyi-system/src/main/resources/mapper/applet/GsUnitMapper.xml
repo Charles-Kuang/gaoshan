@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.applet.mapper.GsUnitMapper">
+
+    <resultMap type="GsUnit" id="GsUnitResult">
+        <result property="unitId" column="unit_id"/>
+        <result property="addressId" column="address_id"/>
+        <result property="addressDetail" column="address_detail"/>
+        <result property="name" column="name"/>
+        <result property="organizeCode" column="organize_code"/>
+        <result property="companyPhone" column="company_phone"/>
+        <result property="doorImage" column="door_image"/>
+        <result property="businessLicense" column="business_license"/>
+        <result property="businessScope" column="business_scope"/>
+        <result property="legalPerson" column="legal_person"/>
+        <result property="legalPersonPhone" column="legal_person_phone"/>
+        <result property="corporateIdentityCard" column="corporate_identity_card"/>
+        <result property="type" column="type"/>
+        <result property="nature" column="nature"/>
+        <result property="principalMobile" column="principal_mobile"/>
+        <result property="establishDay" column="establish_day"/>
+        <result property="dataState" column="data_state"/>
+        <result property="remark" column="remark"/>
+        <result property="auditUserPhone" column="audit_user_phone"/>
+        <result property="auditState" column="audit_state"/>
+        <result property="auditUser" column="audit_user"/>
+        <result property="auditUserId" column="audit_user_id"/>
+        <result property="createUserId" column="create_user_id"/>
+        <result property="createUser" column="create_user"/>
+        <result property="createTime" column="create_time"/>
+        <result property="createUserPhone" column="create_user_phone"/>
+        <result property="lastUpdateUserId" column="last_update_user_id"/>
+        <result property="lastUpdateUser" column="last_update_user"/>
+        <result property="lastUpdateUserPhone" column="last_update_user_phone"/>
+        <result property="lastUpdateTime" column="last_update_time"/>
+        <result property="commitStatus" column="commit_status"/>
+    </resultMap>
+
+    <sql id="selectGsUnitVo">
+        select unit_id,
+               address_id,
+               address_detail,
+               name,
+               organize_code,
+               company_phone,
+               door_image,
+               business_license,
+               business_scope,
+               legal_person,
+               legal_person_phone,
+               corporate_identity_card,
+               type,
+               nature,
+               principal_mobile,
+               establish_day,
+               data_state,
+               remark,
+               audit_user_phone,
+               audit_state,
+               audit_user,
+               audit_user_id,
+               create_user_id,
+               create_user,
+               create_time,
+               create_user_phone,
+               last_update_user_id,
+               last_update_user,
+               last_update_user_phone,
+               last_update_time,
+               commit_status
+        from gs_unit
+    </sql>
+
+    <select id="selectGsUnitList" parameterType="GsUnit" resultMap="GsUnitResult">
+        <include refid="selectGsUnitVo"/>
+        <where>
+            <if test="addressId != null ">and address_id like concat(#{addressId}, '%')</if>
+            <if test="addressDetail != null  and addressDetail != ''">and address_detail = #{addressDetail}</if>
+            <if test="name != null  and name != ''">and name like concat('%', #{name}, '%')</if>
+            <if test="organizeCode != null  and organizeCode != ''">and organize_code = #{organizeCode}</if>
+            <if test="companyPhone != null  and companyPhone != ''">and company_phone = #{companyPhone}</if>
+            <if test="doorImage != null  and doorImage != ''">and door_image = #{doorImage}</if>
+            <if test="businessLicense != null  and businessLicense != ''">and business_license = #{businessLicense}</if>
+            <if test="businessScope != null  and businessScope != ''">and business_scope = #{businessScope}</if>
+            <if test="legalPerson != null  and legalPerson != ''">and legal_person = #{legalPerson}</if>
+            <if test="legalPersonPhone != null  and legalPersonPhone != ''">and legal_person_phone =
+                #{legalPersonPhone}
+            </if>
+            <if test="corporateIdentityCard != null  and corporateIdentityCard != ''">and corporate_identity_card =
+                #{corporateIdentityCard}
+            </if>
+            <if test="type != null  and type != ''">and type = #{type}</if>
+            <if test="nature != null  and nature != ''">and nature = #{nature}</if>
+            <if test="principalMobile != null  and principalMobile != ''">and principal_mobile = #{principalMobile}</if>
+            <if test="establishDay != null ">and establish_day = #{establishDay}</if>
+            <if test="auditUserPhone != null  and auditUserPhone != ''">and audit_user_phone = #{auditUserPhone}</if>
+            <if test="auditState != null ">and audit_state = #{auditState}</if>
+            <if test="auditUser != null  and auditUser != ''">and audit_user = #{auditUser}</if>
+            <if test="auditUserId != null ">and audit_user_id = #{auditUserId}</if>
+            <if test="createUserId != null ">and create_user_id = #{createUserId}</if>
+            <if test="createUser != null  and createUser != ''">and create_user = #{createUser}</if>
+            <if test="createUserPhone != null  and createUserPhone != ''">and create_user_phone = #{createUserPhone}
+            </if>
+            <if test="lastUpdateUserId != null ">and last_update_user_id = #{lastUpdateUserId}</if>
+            <if test="lastUpdateUser != null  and lastUpdateUser != ''">and last_update_user = #{lastUpdateUser}</if>
+            <if test="lastUpdateUserPhone != null  and lastUpdateUserPhone != ''">and last_update_user_phone =
+                #{lastUpdateUserPhone}
+            </if>
+            <if test="lastUpdateTime != null ">and last_update_time = #{lastUpdateTime}</if>
+            <if test="commitStatus != null ">and commit_status = #{commitStatus}</if>
+            and data_state = '0'
+        </where>
+    </select>
+
+    <select id="selectGsUnitById" parameterType="Long" resultMap="GsUnitResult">
+        <include refid="selectGsUnitVo"/>
+        where unit_id = #{unitId} and data_state = '0'
+    </select>
+
+    <insert id="insertGsUnit" parameterType="GsUnit" useGeneratedKeys="true" keyProperty="unitId">
+        insert into gs_unit
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="addressId != null">address_id,</if>
+            <if test="addressDetail != null">address_detail,</if>
+            <if test="name != null">name,</if>
+            <if test="organizeCode != null">organize_code,</if>
+            <if test="companyPhone != null">company_phone,</if>
+            <if test="doorImage != null">door_image,</if>
+            <if test="businessLicense != null">business_license,</if>
+            <if test="businessScope != null">business_scope,</if>
+            <if test="legalPerson != null">legal_person,</if>
+            <if test="legalPersonPhone != null">legal_person_phone,</if>
+            <if test="corporateIdentityCard != null">corporate_identity_card,</if>
+            <if test="type != null">type,</if>
+            <if test="nature != null">nature,</if>
+            <if test="principalMobile != null">principal_mobile,</if>
+            <if test="establishDay != null">establish_day,</if>
+            <if test="remark != null">remark,</if>
+            <if test="auditUserPhone != null">audit_user_phone,</if>
+            <if test="auditState != null">audit_state,</if>
+            <if test="auditUser != null">audit_user,</if>
+            <if test="auditUserId != null">audit_user_id,</if>
+            <if test="createUserId != null">create_user_id,</if>
+            <if test="createUser != null">create_user,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="createUserPhone != null">create_user_phone,</if>
+            <if test="lastUpdateUserId != null">last_update_user_id,</if>
+            <if test="lastUpdateUser != null">last_update_user,</if>
+            <if test="lastUpdateUserPhone != null">last_update_user_phone,</if>
+            <if test="lastUpdateTime != null">last_update_time,</if>
+            <if test="commitStatus != null">commit_status,</if>
+            data_state
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="addressId != null">#{addressId},</if>
+            <if test="addressDetail != null">#{addressDetail},</if>
+            <if test="name != null">#{name},</if>
+            <if test="organizeCode != null">#{organizeCode},</if>
+            <if test="companyPhone != null">#{companyPhone},</if>
+            <if test="doorImage != null">#{doorImage},</if>
+            <if test="businessLicense != null">#{businessLicense},</if>
+            <if test="businessScope != null">#{businessScope},</if>
+            <if test="legalPerson != null">#{legalPerson},</if>
+            <if test="legalPersonPhone != null">#{legalPersonPhone},</if>
+            <if test="corporateIdentityCard != null">#{corporateIdentityCard},</if>
+            <if test="type != null">#{type},</if>
+            <if test="nature != null">#{nature},</if>
+            <if test="principalMobile != null">#{principalMobile},</if>
+            <if test="establishDay != null">#{establishDay},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="auditUserPhone != null">#{auditUserPhone},</if>
+            <if test="auditState != null">#{auditState},</if>
+            <if test="auditUser != null">#{auditUser},</if>
+            <if test="auditUserId != null">#{auditUserId},</if>
+            <if test="createUserId != null">#{createUserId},</if>
+            <if test="createUser != null">#{createUser},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="createUserPhone != null">#{createUserPhone},</if>
+            <if test="lastUpdateUserId != null">#{lastUpdateUserId},</if>
+            <if test="lastUpdateUser != null">#{lastUpdateUser},</if>
+            <if test="lastUpdateUserPhone != null">#{lastUpdateUserPhone},</if>
+            <if test="lastUpdateTime != null">#{lastUpdateTime},</if>
+            <if test="commitStatus != null">#{commitStatus},</if>
+            '0'
+        </trim>
+    </insert>
+
+    <update id="updateGsUnit" parameterType="GsUnit">
+        update gs_unit
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="addressId != null">address_id = #{addressId},</if>
+            <if test="addressDetail != null">address_detail = #{addressDetail},</if>
+            <if test="name != null">name = #{name},</if>
+            <if test="organizeCode != null">organize_code = #{organizeCode},</if>
+            <if test="companyPhone != null">company_phone = #{companyPhone},</if>
+            <if test="doorImage != null">door_image = #{doorImage},</if>
+            <if test="businessLicense != null">business_license = #{businessLicense},</if>
+            <if test="businessScope != null">business_scope = #{businessScope},</if>
+            <if test="legalPerson != null">legal_person = #{legalPerson},</if>
+            <if test="legalPersonPhone != null">legal_person_phone = #{legalPersonPhone},</if>
+            <if test="corporateIdentityCard != null">corporate_identity_card = #{corporateIdentityCard},</if>
+            <if test="type != null">type = #{type},</if>
+            <if test="nature != null">nature = #{nature},</if>
+            <if test="principalMobile != null">principal_mobile = #{principalMobile},</if>
+            <if test="establishDay != null">establish_day = #{establishDay},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="auditUserPhone != null">audit_user_phone = #{auditUserPhone},</if>
+            <if test="auditState != null">audit_state = #{auditState},</if>
+            <if test="auditUser != null">audit_user = #{auditUser},</if>
+            <if test="auditUserId != null">audit_user_id = #{auditUserId},</if>
+            <if test="createUserId != null">create_user_id = #{createUserId},</if>
+            <if test="createUser != null">create_user = #{createUser},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="createUserPhone != null">create_user_phone = #{createUserPhone},</if>
+            <if test="lastUpdateUserId != null">last_update_user_id = #{lastUpdateUserId},</if>
+            <if test="lastUpdateUser != null">last_update_user = #{lastUpdateUser},</if>
+            <if test="lastUpdateUserPhone != null">last_update_user_phone = #{lastUpdateUserPhone},</if>
+            <if test="lastUpdateTime != null">last_update_time = #{lastUpdateTime},</if>
+            <if test="commitStatus != null">commit_status = #{commitStatus},</if>
+            data_state = '0'
+        </trim>
+        where unit_id = #{unitId}
+    </update>
+
+    <delete id="deleteGsUnitById" parameterType="String">
+        update gs_unit set data_state = '1' where unit_id = #{unitId}
+    </delete>
+
+    <delete id="deleteGsUnitByIds" parameterType="String">
+        update gs_unit set data_state = '1' where unit_id in
+        <foreach item="unitId" collection="array" open="(" separator="," close=")">
+            #{unitId}
+        </foreach>
+    </delete>
+</mapper>

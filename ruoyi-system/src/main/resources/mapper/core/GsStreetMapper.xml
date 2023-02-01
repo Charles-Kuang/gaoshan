@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.core.mapper.GsStreetMapper">
+
+    <resultMap type="GsStreet" id="GsStreetResult">
+        <result property="streetId" column="street_id"/>
+        <result property="name" column="name"/>
+        <result property="regionCode" column="region_code"/>
+        <result property="region" column="region"/>
+        <result property="townsCode" column="towns_code"/>
+        <result property="towns" column="towns"/>
+        <result property="committeeCode" column="committee_code"/>
+        <result property="committee" column="committee"/>
+        <result property="policeId" column="police_id"/>
+        <result property="firstLetter" column="first_letter"/>
+        <result property="alias" column="alias"/>
+        <result property="lng" column="lng"/>
+        <result property="lat" column="lat"/>
+        <result property="addressFence" column="address_fence"/>
+        <result property="dataSources" column="data_sources"/>
+        <result property="parentId" column="parent_id"/>
+        <result property="ancestors" column="ancestors"/>
+        <result property="invalidFlag" column="invalid_flag"/>
+        <result property="inStorage" column="in_storage"/>
+        <result property="storageUser" column="storage_user"/>
+        <result property="storageUserId" column="storage_user_id"/>
+        <result property="storageTime" column="storage_time"/>
+        <result property="createUnit" column="create_unit"/>
+        <result property="createTime" column="create_time"/>
+        <result property="createUserId" column="create_user_id"/>
+        <result property="createUser" column="create_user"/>
+        <result property="createUserPhone" column="create_user_phone"/>
+        <result property="lastUpdateTime" column="last_update_time"/>
+        <result property="lastUpdateUser" column="last_update_user"/>
+        <result property="lastUpdateUserId" column="last_update_user_id"/>
+        <result property="lastUpdateUserPhone" column="last_update_user_phone"/>
+        <result property="auditUser" column="audit_user"/>
+        <result property="auditUserId" column="audit_user_id"/>
+        <result property="auditState" column="audit_state"/>
+        <result property="auditUserPhone" column="audit_user_phone"/>
+        <association property="dept"    column="dept_id" javaType="SysDept" resultMap="deptResult" />
+    </resultMap>
+
+    <resultMap id="deptResult" type="SysDept">
+        <id     property="deptId"   column="dept_id"     />
+        <result property="parentId" column="parent_id"   />
+        <result property="deptName" column="dept_name"   />
+        <result property="orderNum" column="order_num"   />
+        <result property="leader"   column="leader"      />
+        <result property="status"   column="dept_status" />
+    </resultMap>
+
+    <sql id="selectGsStreetVo">
+        select s.street_id,
+               s.name,
+               s.region_code,
+               s.region,
+               s.towns_code,
+               s.towns,
+               s.committee_code,
+               s.committee,
+               s.police_id,
+               s.first_letter,
+               s.alias,
+               s.lng,
+               s.lat,
+               s.address_fence,
+               s.data_sources,
+               s.parent_id,
+               s.ancestors,
+               s.invalid_flag,
+               s.in_storage,
+               s.storage_user,
+               s.storage_user_id,
+               s.storage_time,
+               s.create_unit,
+               s.create_time,
+               s.create_user_id,
+               s.create_user,
+               s.create_user_phone,
+               s.last_update_time,
+               s.last_update_user,
+               s.last_update_user_id,
+               s.last_update_user_phone,
+               audit_user,
+               s.audit_user_id,
+               s.audit_state,
+               s.audit_user_phone,
+               d.dept_id, d.parent_id, d.dept_name, d.order_num, d.leader, d.status as dept_status
+        from gs_street s left join sys_dept d on s.police_id = d.dept_id
+    </sql>
+
+    <select id="selectGsStreetList" parameterType="GsStreet" resultMap="GsStreetResult">
+        select s.street_id, s.name, s.region_code, s.region, s.towns_code, s.towns, s.committee_code, s.committee, s.police_id, s.first_letter,
+               s.alias, s.lng, s.lat, s.address_fence, s.data_sources, s.parent_id, s.ancestors, s.invalid_flag, s.in_storage, s.storage_user,
+               s.storage_user_id, s.storage_time, s.create_unit, s.create_time, s.create_user_id, s.create_user, s.create_user_phone,
+               s.last_update_time, s.last_update_user, s.last_update_user_id, s.last_update_user_phone, s.audit_user, s.audit_user_id,
+               s.audit_state, s.audit_user_phone, d.dept_name, d.leader
+        from gs_street s left join sys_dept d on s.police_id = d.dept_id
+        <where>
+            <if test="name != null  and name != ''">and s.name like concat('%', #{name}, '%')</if>
+            <if test="regionCode != null ">and s.region_code = #{regionCode}</if>
+            <if test="region != null  and region != ''">and s.region = #{region}</if>
+            <if test="townsCode != null ">and s.towns_code = #{townsCode}</if>
+            <if test="towns != null  and towns != ''">and s.towns = #{towns}</if>
+            <if test="committeeCode != null ">and s.committee_code = #{committeeCode}</if>
+            <if test="committee != null  and committee != ''">and s.committee = #{committee}</if>
+            <if test="policeId != null ">and s.police_id = #{policeId}</if>
+            <if test="firstLetter != null  and firstLetter != ''">and s.first_letter = #{firstLetter}</if>
+            <if test="alias != null  and alias != ''">and s.alias = #{alias}</if>
+            <if test="addressFence != null  and addressFence != ''">and s.address_fence = #{addressFence}</if>
+            <if test="dataSources != null  and dataSources != ''">and s.data_sources = #{dataSources}</if>
+            <if test="parentId != null ">and s.parent_id = #{parentId}</if>
+            <if test="ancestors != null  and ancestors != ''">and s.ancestors = #{ancestors}</if>
+            <if test="inStorage != null  and inStorage != ''">and s.in_storage = #{inStorage}</if>
+            <if test="storageUser != null  and storageUser != ''">and s.storage_user = #{storageUser}</if>
+            <if test="storageUserId != null ">and s.storage_user_id = #{storageUserId}</if>
+            <if test="storageTime != null ">and s.storage_time = #{storageTime}</if>
+            <if test="createUnit != null  and createUnit != ''">and s.create_unit = #{createUnit}</if>
+            and s.invalid_flag='0'
+        </where>
+    </select>
+
+    <select id="selectGsStreetById" parameterType="Long" resultMap="GsStreetResult">
+        <include refid="selectGsStreetVo"/>
+        where s.street_id = #{streetId} and s.invalid_flag='0'
+    </select>
+
+    <insert id="insertGsStreet" parameterType="GsStreet" useGeneratedKeys="true" keyProperty="streetId">
+        insert into gs_street
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name != null">name,</if>
+            <if test="regionCode != null">region_code,</if>
+            <if test="region != null">region,</if>
+            <if test="townsCode != null">towns_code,</if>
+            <if test="towns != null">towns,</if>
+            <if test="committeeCode != null">committee_code,</if>
+            <if test="committee != null">committee,</if>
+            <if test="policeId != null">police_id,</if>
+            <if test="firstLetter != null">first_letter,</if>
+            <if test="alias != null">alias,</if>
+            <if test="lng != null">lng,</if>
+            <if test="lat != null">lat,</if>
+            <if test="addressFence != null">address_fence,</if>
+            <if test="dataSources != null">data_sources,</if>
+            <if test="parentId != null">parent_id,</if>
+            <if test="ancestors != null">ancestors,</if>
+            <if test="inStorage != null">in_storage,</if>
+            <if test="storageUser != null">storage_user,</if>
+            <if test="storageUserId != null">storage_user_id,</if>
+            <if test="storageTime != null">storage_time,</if>
+            <if test="createUnit != null">create_unit,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="createUserId != null">create_user_id,</if>
+            <if test="createUser != null">create_user,</if>
+            <if test="createUserPhone != null">create_user_phone,</if>
+            <if test="lastUpdateTime != null">last_update_time,</if>
+            <if test="lastUpdateUser != null">last_update_user,</if>
+            <if test="lastUpdateUserId != null">last_update_user_id,</if>
+            <if test="lastUpdateUserPhone != null">last_update_user_phone,</if>
+            <if test="auditUser != null">audit_user,</if>
+            <if test="auditUserId != null">audit_user_id,</if>
+            <if test="auditState != null">audit_state,</if>
+            <if test="auditUserPhone != null">audit_user_phone,</if>
+            invalid_flag
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="name != null">#{name},</if>
+            <if test="regionCode != null">#{regionCode},</if>
+            <if test="region != null">#{region},</if>
+            <if test="townsCode != null">#{townsCode},</if>
+            <if test="towns != null">#{towns},</if>
+            <if test="committeeCode != null">#{committeeCode},</if>
+            <if test="committee != null">#{committee},</if>
+            <if test="policeId != null">#{policeId},</if>
+            <if test="firstLetter != null">#{firstLetter},</if>
+            <if test="alias != null">#{alias},</if>
+            <if test="lng != null">#{lng},</if>
+            <if test="lat != null">#{lat},</if>
+            <if test="addressFence != null">#{addressFence},</if>
+            <if test="dataSources != null">#{dataSources},</if>
+            <if test="parentId != null">#{parentId},</if>
+            <if test="ancestors != null">#{ancestors},</if>
+            <if test="inStorage != null">#{inStorage},</if>
+            <if test="storageUser != null">#{storageUser},</if>
+            <if test="storageUserId != null">#{storageUserId},</if>
+            <if test="storageTime != null">#{storageTime},</if>
+            <if test="createUnit != null">#{createUnit},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="createUserId != null">#{createUserId},</if>
+            <if test="createUser != null">#{createUser},</if>
+            <if test="createUserPhone != null">#{createUserPhone},</if>
+            <if test="lastUpdateTime != null">#{lastUpdateTime},</if>
+            <if test="lastUpdateUser != null">#{lastUpdateUser},</if>
+            <if test="lastUpdateUserId != null">#{lastUpdateUserId},</if>
+            <if test="lastUpdateUserPhone != null">#{lastUpdateUserPhone},</if>
+            <if test="auditUser != null">#{auditUser},</if>
+            <if test="auditUserId != null">#{auditUserId},</if>
+            <if test="auditState != null">#{auditState},</if>
+            <if test="auditUserPhone != null">#{auditUserPhone},</if>
+            '0'
+        </trim>
+    </insert>
+
+    <update id="updateGsStreet" parameterType="GsStreet">
+        update gs_street
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null">name = #{name},</if>
+            <if test="regionCode != null">region_code = #{regionCode},</if>
+            <if test="region != null">region = #{region},</if>
+            <if test="townsCode != null">towns_code = #{townsCode},</if>
+            <if test="towns != null">towns = #{towns},</if>
+            <if test="committeeCode != null">committee_code = #{committeeCode},</if>
+            <if test="committee != null">committee = #{committee},</if>
+            <if test="policeId != null">police_id = #{policeId},</if>
+            <if test="firstLetter != null">first_letter = #{firstLetter},</if>
+            <if test="alias != null">alias = #{alias},</if>
+            <if test="lng != null">lng = #{lng},</if>
+            <if test="lat != null">lat = #{lat},</if>
+            <if test="addressFence != null">address_fence = #{addressFence},</if>
+            <if test="dataSources != null">data_sources = #{dataSources},</if>
+            <if test="parentId != null">parent_id = #{parentId},</if>
+            <if test="ancestors != null">ancestors = #{ancestors},</if>
+            <if test="inStorage != null">in_storage = #{inStorage},</if>
+            <if test="storageUser != null">storage_user = #{storageUser},</if>
+            <if test="storageUserId != null">storage_user_id = #{storageUserId},</if>
+            <if test="storageTime != null">storage_time = #{storageTime},</if>
+            <if test="createUnit != null">create_unit = #{createUnit},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="createUserId != null">create_user_id = #{createUserId},</if>
+            <if test="createUser != null">create_user = #{createUser},</if>
+            <if test="createUserPhone != null">create_user_phone = #{createUserPhone},</if>
+            <if test="lastUpdateTime != null">last_update_time = #{lastUpdateTime},</if>
+            <if test="lastUpdateUser != null">last_update_user = #{lastUpdateUser},</if>
+            <if test="lastUpdateUserId != null">last_update_user_id = #{lastUpdateUserId},</if>
+            <if test="lastUpdateUserPhone != null">last_update_user_phone = #{lastUpdateUserPhone},</if>
+            <if test="auditUser != null">audit_user = #{auditUser},</if>
+            <if test="auditUserId != null">audit_user_id = #{auditUserId},</if>
+            <if test="auditState != null">audit_state = #{auditState},</if>
+            <if test="auditUserPhone != null">audit_user_phone = #{auditUserPhone},</if>
+            invalid_flag = '0'
+        </trim>
+        where street_id = #{streetId}
+    </update>
+
+    <delete id="deleteGsStreetById" parameterType="Long">
+        update gs_street set invalid_flag = '2' where street_id = #{streetId}
+    </delete>
+
+    <delete id="deleteGsStreetByIds" parameterType="String">
+        update gs_street set invalid_flag = '2' where street_id in
+        <foreach item="streetId" collection="array" open="(" separator="," close=")">
+            #{streetId}
+        </foreach>
+    </delete>
+</mapper>
