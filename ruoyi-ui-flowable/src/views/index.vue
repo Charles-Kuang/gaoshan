@@ -1,26 +1,26 @@
 <template>
   <div class="container pt-10">
     <div class="app-container">
-    <div id="mapChoose">
-      <span v-for="(item,index) in selectedMaps" :key="item.code">
-        <span class="title" @click="chooseMap(item,index)">{{item.name == 'guizhou' ? '贵州' : item.name}}</span>
-        <span class="icon" v-show="index + 1 != selectedMaps.length">></span>
-      </span>
-    </div>
       <div class="white text-center" :style="{'width':'100%','fontSize':'24px','color':'#000000', 'top':'10px','font-size':'26px', 'fontStyle':'italic', 'fontWeight':'bolder','fontFamily':'sans-serif'}">
         贵州行政区划地图
+      </div>
+      <div id="mapChoose">
+        <span v-for="(item,index) in selectedMaps" :key="item.code">
+          <span class="title" @click="chooseMap(item,index)">{{item.name == 'guizhou' ? '贵州' : item.name}}</span>
+          <span class="icon" v-show="index + 1 != selectedMaps.length">></span>
+        </span>
       </div>
       <div id="echart"></div>
     </div>
     <div class="stream-data">
-         <div id="echart2"></div>
-         <div class="flow-data" id="flow-data">
-            <ul  class="infinite-list" style="overflow:auto">
-              <li v-for="(item,index) in flowDataList" class="infinite-list-item">
-                {{item.text}}
-              </li>
-            </ul>
-         </div>
+      <div id="echart2"></div>
+      <div class="flow-data" id="flow-data">
+        <ul  class="infinite-list" style="overflow:auto">
+          <li v-for="(item,index) in flowDataList" class="infinite-list-item">
+            {{item.text}}
+          </li>
+        </ul>
+      </div>
     </div>
   </div>
 </template>
@@ -43,6 +43,7 @@ export default {
         {
           name:'guizhou',
           code:'520000',
+          level:'province',
         }
       ],
 
@@ -263,19 +264,23 @@ export default {
                     code_exist = true;
                 }
             });
-            if(code_exist){
+            console.log(this.selectedMaps[this.selectedMaps.length-1].level);
+            console.log(this.selectedMaps);
+            if(this.selectedMaps[this.selectedMaps.length-1].level === 'province') {
+              if(code_exist){
                 this.curMapName = params.name;
                 this.getMapData(map);
-    
+                
                 // 为地图标题菜单存入（过滤同一地图多次点击情况）点击地图信息
                 let selectedCodes = [];
                 this.selectedMaps.forEach( item => selectedCodes.push(item.code));
-                if(!selectedCodes.includes(map)){
-                this.$set(this.selectedMaps,this.selectedMaps.length,{name: this.curMapName, code: map}); 
-                }
                 
-            }else{
+                if(!selectedCodes.includes(map)){
+                  this.$set(this.selectedMaps,this.selectedMaps.length,{name: this.curMapName, code: map, level: 'city'}); 
+                }
+              }else{
                 this.$message({message: '暂无地图数据',type: 'warning',showClose: true});
+              }
             }
         });
       },
@@ -296,6 +301,7 @@ export default {
       // 地图标题菜单点击
       chooseMap(item,index){
         this.selectedMaps.splice(index + 1); 
+        console.log(this.selectedMaps);
         this.getMapData(item.code)
       },
       // 获取地图数据
@@ -336,7 +342,6 @@ export default {
   }
   #mapChoose {
     position: relative;
-    top: 60px;
     left: 20px;
     color: #555;
     float: left;

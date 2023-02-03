@@ -258,10 +258,11 @@
             <el-form-item label="籍贯地址" prop="nativePlaceAddressId">
               <el-cascader
                 style="width: 250px"
-                :options="regionOptionOnes"
+                :options="nativeAddressAll"
                 v-model="form.nativePlaceAddressId"
-                :props="{checkStrictly: false,emitPath: false}"
+                :props="{checkStrictly: false, emitPath: false}"
                 :disabled="isShow"
+                :key="nativeCascader"
                 clearable></el-cascader>
             </el-form-item>
           </el-col>
@@ -276,10 +277,11 @@
             <el-form-item label="现居地址" prop="addressId">
               <el-cascader
                 style="width: 250px"
-                :options="regionOptions"
+                :options="curAddressAll"
                 v-model="form.addressId"
-                :props="{checkStrictly: false,emitPath: false}"
+                :props="{checkStrictly: false, emitPath: false}"
                 :disabled="isShow"
+                :key="curCascader"
                 clearable></el-cascader>
             </el-form-item>
           </el-col>
@@ -433,7 +435,6 @@ import {
   updatePersonOne
 } from "@/api/applet/person";
 import ImageUpload from '@/components/ImageUpload';
-import {listRegionOne} from "@/api/applet/region";
 import {listUnit} from "@/api/applet/unit";
 
 export default {
@@ -455,6 +456,8 @@ export default {
       }
     };
     return {
+      curCascader: 0,
+      nativeCascader: 0,
       clearable: true,
       // 遮罩层
       loading: true,
@@ -554,10 +557,6 @@ export default {
       queryParamOnes: {
         level: 3
       },
-      queryParamTwos: {
-        addressId: null,
-        forefathers: "0,520000"
-      },
       // 表单参数
       form: {},
       // 表单校验
@@ -584,14 +583,13 @@ export default {
         ],
       },
       // 行政区树选项
-      regionOptions: [],
-      // 行政区树选项
-      regionOptionOnes: [],
+      nativeAddressAll: [],
+      curAddressAll: []
     };
   },
   created() {
     this.getList();
-    this.handleRegionOptions();
+    this.getAllProvinceAndCityList();
     this.getDicts("gs_type_of_certificate").then(response => {
       this.identityTypeOptions = response.data;
     });
@@ -631,8 +629,72 @@ export default {
     this.getDicts("gs_celebrity_type").then(response => {
       this.celebrityOptions = response.data;
     });
+    
   },
   methods: {
+    getAllProvinceAndCityList() {
+      // 获取全国所有省份和城市的列表
+      var that = this;
+      this.$axios.get("https://restapi.amap.com/v3/config/district", {
+          // 高德地图的API
+          params: {
+            key: "83ebc07553d6b32a7f37f5cf33667c9e", // API Key
+            keywords: "中国",
+            subdistrict: 4,
+            extensions: "base",
+          },
+        })
+        .then((response) => {
+          for(let i = 0;i<response.data.districts[0].districts.length;i++){
+            let provinceMap = new Map();
+            provinceMap.value = response.data.districts[0].districts[i].adcode;   //区域编号
+            provinceMap.label = response.data.districts[0].districts[i].name;     //省名称
+            if(response.data.districts[0].districts[i].districts.length != 0) {
+              provinceMap.children = [];
+            } else {
+              provinceMap.value = response.data.districts[0].districts[i].adcode + i.toString();
+            }
+            //添加省份
+            that.nativeAddressAll.push(provinceMap);  
+            
+            that.curAddressAll.push(provinceMap);
+            /*
+            that.curAddressAll.forEach(function (val, index) {
+              val.value = JSON.stringify(val.value);
+            })
+            */
+            
+            for(let j = 0;j < response.data.districts[0].districts[i].districts.length;j++){
+              let cityMap = new Map()
+              cityMap.value = response.data.districts[0].districts[i].districts[j].adcode;   //区域编号
+              cityMap.label = response.data.districts[0].districts[i].districts[j].name;     //市名称
+              if(response.data.districts[0].districts[i].districts[j].districts.length != 0) {
+                cityMap.children = [];
+              } else {
+                cityMap.value = response.data.districts[0].districts[i].districts[j].adcode + j.toString();
+              }
+              provinceMap.children.push(cityMap); //添加市
+              for(let k = 0;k <response.data.districts[0].districts[i].districts[j].districts.length;k++){
+                let areaMap = new Map()
+                areaMap.value = response.data.districts[0].districts[i].districts[j].districts[k].adcode;   //区域编号
+                areaMap.label = response.data.districts[0].districts[i].districts[j].districts[k].name;     //区县名称
+                if(response.data.districts[0].districts[i].districts[j].districts[k].districts.length != 0) {
+                  areaMap.children = [];
+                } else {
+                  areaMap.value = response.data.districts[0].districts[i].districts[j].districts[k].adcode + k.toString();
+                }
+                cityMap.children.push(areaMap);   //添加区县
+                for(let l = 0;l <response.data.districts[0].districts[i].districts[j].districts[k].districts.length; l++){
+                  let streetMap = new Map();
+                  streetMap.value = response.data.districts[0].districts[i].districts[j].districts[k].districts[l].adcode + l.toString();
+                  streetMap.label = response.data.districts[0].districts[i].districts[j].districts[k].districts[l].name;
+                  areaMap.children.push(streetMap);
+                }
+              }
+            }
+          }
+        });
+    },
     /** 查询实有人口登记列表 */
     getList() {
       this.loading = true;
@@ -702,9 +764,12 @@ export default {
     },
     // 表单重置
     reset() {
+      //更改key值，重新渲染el-cascader，重置选择窗口
+      this.nativeCascader += 1;
+      this.curCascader += 1;
       this.form = {
         personId: null,
-        addressId: null,
+        addressId: 520000,
         addressDetail: null,
         identityType: '0',
         identityReverse: null,
@@ -719,7 +784,7 @@ export default {
         age: null,
         nation: '0',
         birthday: null,
-        nativePlaceAddressId: null,
+        nativePlaceAddressId: 520000,
         nativePlaceAddressDetail: null,
         job: null,
         education: '0',
@@ -778,6 +843,7 @@ export default {
       const personId = row.personId || this.ids
       getPerson(personId).then(response => {
         this.form = response.data;
+        this.form.addressId = this.form.addressId.toString();
         this.handleUnitOptions();
         this.isShow = false;
         this.open = true;
@@ -790,6 +856,7 @@ export default {
       const personOneId = row.personId || this.ids
       getPerson(personOneId).then(response => {
         this.form = response.data;
+        this.form.addressId = this.form.addressId.toString();
         this.handleUnitOptions();
         this.open = true;
         this.isShow = true;
@@ -797,25 +864,7 @@ export default {
         this.commitStatusOptionsOne = this.commitStatusOptions.slice(1);
       });
     },
-    handleRegionOptions() {
-      listRegionOne(this.queryParamOnes).then(response => {
-        let regionOptions = response.data;
-        regionOptions.forEach(function (val, index) {
-          val.value = val.code
-          val.label = val.name
-        })
-        this.regionOptions = this.getTreeData(this.handleTree(regionOptions, "code", "parentCode"));
-        regionOptions.forEach(function (val, index) {
-          val.value = JSON.stringify(val.code)
-          val.label = val.name
-        })
-        this.regionOptionOnes = this.getTreeData(this.handleTree(regionOptions, "code", "parentCode"));
-      })
-    },
     handleUnitOptions() {
-      if(this.form.addressId!==null){
-        this.queryParamTwos.addressId=this.form.addressId.toString().substring(0,4);
-      }
       listUnit(this.queryParamTwos).then(response => {
         console.log(response)
         this.unitOptions = response.rows;

@@ -22,6 +22,8 @@ import Pagination from "@/components/Pagination";
 import RightToolbar from "@/components/RightToolbar"
 //图表插件
 import echarts from 'echarts'
+import axios from 'axios'
+Vue.prototype.$axios = axios
 Vue.prototype.$echarts = echarts
 // 全局方法挂载
 Vue.prototype.getDicts = getDicts
